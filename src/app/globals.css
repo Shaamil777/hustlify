@@ -5,26 +5,18 @@
 :root {
   --background: 0 0% 100%;
   --foreground: 0 0% 9%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 9%;
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --radius: 0.5rem;
+  --radius: 1.25rem;
 }
 
 body {
-  background-color: #fafafa;
-  color: #171717;
+  background-color: #f1f5f9;
+  color: #0f172a;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
   min-height: 100vh;
 }
 
-/* Minimal sleek scrollbar */
+/* Custom sleek scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -35,31 +27,40 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a3a3a3;
+  background: #94a3b8;
 }
 
-/* Minimal input styling */
-.minimal-input {
-  background-color: #ffffff;
-  border: 1px solid #e5e5e5;
-  color: #171717;
-  transition: all 0.15s ease;
+/* Emerald Green Gradient for the Left Panel */
+.emerald-hero-gradient {
+  background: linear-gradient(145deg, #064e3b 0%, #047857 45%, #059669 100%);
+  position: relative;
 }
 
-.minimal-input:focus {
+.emerald-hero-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 15%, rgba(52, 211, 153, 0.25) 0%, transparent 55%),
+              radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Minimal clean input styling */
+.split-input {
   background-color: #ffffff;
-  border-color: #171717;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.split-input:focus {
+  background-color: #ffffff;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
   outline: none;
-  box-shadow: 0 0 0 1px #171717;
-}
-
-.minimal-card {
-  background-color: #ffffff;
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
 }

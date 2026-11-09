@@ -156,7 +156,7 @@ export default function AudioRecorder({
 
       for (let i = 0; i < bufferLength; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height * 0.85;
-        ctx.fillStyle = "#171717";
+        ctx.fillStyle = "#059669";
         ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
         x += barWidth;
       }
@@ -200,19 +200,21 @@ export default function AudioRecorder({
   };
 
   return (
-    <div className="mt-2.5 p-3.5 rounded-lg border border-neutral-200 bg-neutral-50/70">
+    <div className="mt-2.5 p-3.5 rounded-xl border border-emerald-100 bg-emerald-50/40">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-medium text-neutral-700 flex items-center gap-1.5">
-          <Mic className="w-3.5 h-3.5 text-neutral-900" />
-          Voice note
+        <span className="text-xs font-semibold text-emerald-950 flex items-center gap-1.5">
+          <Mic className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+          Voice note input
         </span>
-        <span className="text-[11px] text-neutral-400 font-normal">
-          {label}
+        <span className="text-[11px] text-emerald-800/70 font-medium bg-emerald-100/60 px-2 py-0.5 rounded-full">
+          Max 3 mins
         </span>
       </div>
 
+      <p className="text-xs text-slate-600 mb-2.5">{label}</p>
+
       {permissionError && (
-        <div className="flex items-center gap-2 p-2.5 mb-2.5 text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-md">
+        <div className="flex items-center gap-2 p-2.5 mb-2.5 text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded-lg">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{permissionError}</span>
         </div>
@@ -221,27 +223,27 @@ export default function AudioRecorder({
       {/* Case 1: Recording in progress */}
       {isRecording && (
         <div className="space-y-2.5">
-          <div className="flex items-center justify-between px-3 py-2 bg-white rounded-md border border-neutral-200 text-xs">
+          <div className="flex items-center justify-between px-3 py-2 bg-white rounded-lg border border-emerald-200 text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              <span className="font-medium text-neutral-800">Recording...</span>
+              <span className="font-medium text-emerald-950">Recording...</span>
             </div>
-            <span className="font-mono text-neutral-600">
+            <span className="font-mono text-emerald-800 font-semibold">
               {formatTime(recordingTime)} / 3:00
             </span>
           </div>
 
-          <div className="h-9 w-full bg-white rounded-md border border-neutral-200 flex items-center justify-center px-2">
+          <div className="h-9 w-full bg-white rounded-lg border border-emerald-200 flex items-center justify-center px-2">
             <canvas ref={canvasRef} width={280} height={32} className="w-full h-7" />
           </div>
 
           <button
             type="button"
             onClick={stopRecording}
-            className="w-full py-2 px-3 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-medium rounded-md flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="w-full py-2 px-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
             <Square className="w-3 h-3 fill-white" />
-            Finish Recording
+            Finish & Save Recording
           </button>
         </div>
       )}
@@ -258,20 +260,20 @@ export default function AudioRecorder({
             className="hidden"
           />
 
-          <div className="p-2.5 bg-white rounded-md border border-neutral-200 space-y-2">
+          <div className="p-3 bg-white rounded-lg border border-emerald-200 shadow-sm space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="flex items-center gap-1.5 text-neutral-800 font-medium">
+              <span className="flex items-center gap-1.5 text-emerald-800 font-semibold">
                 <Check className="w-3.5 h-3.5 text-emerald-600" />
                 Audio recorded
               </span>
-              <span className="text-neutral-500 font-mono text-[11px]">
+              <span className="text-slate-500 font-mono text-[11px]">
                 {formatTime(currentTime)} / {formatTime(audioDuration || recordingTime)}
               </span>
             </div>
 
             {/* Playback progress bar */}
             <div
-              className="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden cursor-pointer"
+              className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden cursor-pointer"
               onClick={(e) => {
                 if (!audioPlayerRef.current || !audioDuration) return;
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -280,7 +282,7 @@ export default function AudioRecorder({
               }}
             >
               <div
-                className="bg-neutral-900 h-full rounded-full transition-all duration-100"
+                className="bg-emerald-600 h-full rounded-full transition-all duration-100"
                 style={{
                   width: `${audioDuration > 0 ? (currentTime / audioDuration) * 100 : 0}%`,
                 }}
@@ -291,15 +293,15 @@ export default function AudioRecorder({
               <button
                 type="button"
                 onClick={togglePlay}
-                className="flex-1 py-1.5 px-3 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-medium rounded flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="flex-1 py-1.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {isPlaying ? (
                   <>
-                    <Pause className="w-3 h-3 fill-neutral-800" /> Pause
+                    <Pause className="w-3 h-3 fill-emerald-900" /> Pause Preview
                   </>
                 ) : (
                   <>
-                    <Play className="w-3 h-3 fill-neutral-800" /> Play
+                    <Play className="w-3 h-3 fill-emerald-900" /> Play Voice Note
                   </>
                 )}
               </button>
@@ -307,7 +309,7 @@ export default function AudioRecorder({
               <button
                 type="button"
                 onClick={handleDelete}
-                className="py-1.5 px-2.5 text-neutral-500 hover:text-rose-600 text-xs font-normal flex items-center gap-1 transition-colors cursor-pointer"
+                className="py-1.5 px-2.5 text-slate-500 hover:text-rose-600 text-xs font-normal flex items-center gap-1 transition-colors cursor-pointer"
                 title="Delete and re-record"
               >
                 <RotateCcw className="w-3 h-3" />
@@ -323,9 +325,9 @@ export default function AudioRecorder({
         <button
           type="button"
           onClick={startRecording}
-          className="w-full py-2 px-3 bg-white hover:bg-neutral-50 border border-neutral-300 text-neutral-800 text-xs font-medium rounded-md flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xl shadow-neutral-100"
+          className="w-full py-2.5 px-3.5 bg-white hover:bg-emerald-50/60 border border-emerald-300 text-emerald-900 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm hover:border-emerald-400 group"
         >
-          <Mic className="w-3.5 h-3.5 text-neutral-600" />
+          <Mic className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
           Click to record voice note
         </button>
       )}
