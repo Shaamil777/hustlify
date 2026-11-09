@@ -31,6 +31,7 @@ const INITIAL_DATA: AssessmentFormData = {
   email: "",
   phone: "",
   website: "",
+  helpTopics: ["CRM Implementation", "Sales Automation"],
 
   q1_incentivePerSale: "",
   q2_currentCrmTools: "",
@@ -65,7 +66,7 @@ const INITIAL_DATA: AssessmentFormData = {
   q28_stakeholdersInvolved: "",
 };
 
-const STORAGE_KEY = "hustlify_draft_centered_v1";
+const STORAGE_KEY = "hustlify_draft_split_v2";
 
 export default function AssessmentForm() {
   const [formData, setFormData] = useState<AssessmentFormData>(INITIAL_DATA);
@@ -105,6 +106,19 @@ export default function AssessmentForm() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       } catch {}
       return updated;
+    });
+  };
+
+  const toggleHelpTopic = (topic: string) => {
+    setFormData((prev) => {
+      const current = prev.helpTopics || [];
+      const updated = current.includes(topic)
+        ? current.filter((t) => t !== topic)
+        : [...current, topic];
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...prev, helpTopics: updated }));
+      } catch {}
+      return { ...prev, helpTopics: updated };
     });
   };
 
@@ -248,32 +262,46 @@ export default function AssessmentForm() {
   }
 
   return (
-    <div className="max-w-6xl xl:max-w-7xl w-full mx-auto bg-white rounded-3xl lg:rounded-[2.5rem] shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[700px]">
+    <div className="max-w-6xl xl:max-w-7xl w-full mx-auto bg-white rounded-3xl lg:rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(15,23,42,0.14)] border border-slate-200/80 overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[740px]">
       
       {/* =========================================================================
-          LEFT PANEL: EMERALD GREEN GRADIENT WITH LOGO & INTERACTIVE STEP SELECTOR
+          LEFT PANEL: EMERALD GREEN GRADIENT WITH BRAND LOGO & STEP SELECTOR
       ========================================================================= */}
-      <aside className="w-full lg:w-[360px] xl:w-[400px] emerald-hero-gradient text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden flex-shrink-0">
+      <aside className="w-full lg:w-[380px] xl:w-[420px] emerald-hero-gradient text-white p-7 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden flex-shrink-0">
         
-        {/* Top: Logo placed in the exact position as the reference image */}
-        <div className="space-y-8 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center text-white font-black text-lg shadow-sm">
-              <Sparkles className="w-5 h-5 text-emerald-200" />
+        {/* Top: Brand Logo placed in the exact position as the reference image */}
+        <div className="space-y-7 relative z-10">
+          <div>
+            {/* The actual brand logo from /public/logo.png */}
+            <div className="inline-flex items-center px-4 py-2.5 bg-white rounded-2xl shadow-lg shadow-emerald-950/20 border border-white/80">
+              <img
+                src="/logo.png"
+                alt="Hustlify Logo"
+                className="h-9 sm:h-11 w-auto object-contain"
+              />
             </div>
-            <div>
-              <span className="text-xl font-extrabold tracking-tight text-white block leading-none">
-                Hustlify
-              </span>
-              <span className="text-[10px] text-emerald-200 font-medium tracking-wide uppercase mt-0.5 block">
-                B2B Assessment
-              </span>
+            <div className="text-[11px] text-emerald-200/90 font-medium tracking-wide mt-2.5 px-1">
+              B2B Business Assessment & Strategy
+            </div>
+          </div>
+
+          {/* Stepper Progress Bar */}
+          <div className="pt-1">
+            <div className="flex items-center justify-between text-[11px] text-emerald-200/90 font-medium mb-1.5 px-1">
+              <span>Step {currentStep + 1} of {steps.length}</span>
+              <span>{Math.round(((currentStep + 1) / steps.length) * 100)}% Completed</span>
+            </div>
+            <div className="h-1.5 w-full bg-emerald-950/40 rounded-full overflow-hidden border border-emerald-400/20">
+              <div
+                className="h-full bg-emerald-300 rounded-full transition-all duration-300"
+                style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+              />
             </div>
           </div>
 
           {/* Stepper Navigation */}
-          <div className="space-y-2 pt-2">
-            <div className="text-[11px] font-semibold tracking-wider uppercase text-emerald-200/80 px-1 pb-1">
+          <div className="space-y-2.5 pt-1">
+            <div className="text-[11px] font-semibold tracking-wider uppercase text-emerald-200/80 px-1 pb-0.5">
               Assessment Steps
             </div>
 
@@ -288,7 +316,7 @@ export default function AssessmentForm() {
                   onClick={() => setCurrentStep(s.id)}
                   className={`w-full text-left p-3.5 rounded-2xl transition-all cursor-pointer flex items-center gap-3.5 group relative ${
                     isActive
-                      ? "bg-white text-emerald-950 font-bold shadow-xl shadow-emerald-950/20 translate-x-1"
+                      ? "bg-white text-emerald-950 font-bold shadow-xl shadow-emerald-950/20 translate-x-1 border border-white"
                       : "bg-white/10 hover:bg-white/15 text-white/90 border border-white/10"
                   }`}
                 >
@@ -333,47 +361,58 @@ export default function AssessmentForm() {
         {/* Bottom Contact / Help Info */}
         <div className="mt-8 pt-6 border-t border-white/15 space-y-4 relative z-10 text-xs">
           <div className="space-y-3">
-            <div className="flex items-start gap-3">
+            <a href="mailto:consult@hustlify.com" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
               <Mail className="w-4 h-4 text-emerald-200 mt-0.5 flex-shrink-0" />
               <div>
                 <span className="font-semibold block text-white text-[11px]">Chat to our team</span>
                 <span className="text-emerald-100/80 text-[11px]">consult@hustlify.com</span>
               </div>
-            </div>
+            </a>
 
-            <div className="flex items-start gap-3">
+            <a href="tel:+15550192834" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
               <Phone className="w-4 h-4 text-emerald-200 mt-0.5 flex-shrink-0" />
               <div>
                 <span className="font-semibold block text-white text-[11px]">Consultation inquiries</span>
                 <span className="text-emerald-100/80 text-[11px]">+1 (555) 019-2834</span>
               </div>
-            </div>
+            </a>
           </div>
 
-          <div className="flex items-center gap-3 pt-2 text-emerald-200">
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="LinkedIn">
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Twitter / X">
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Facebook">
-              <Facebook className="w-4 h-4" />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="YouTube">
-              <Youtube className="w-4 h-4" />
-            </a>
-            <a href="https://hustlify.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Website">
-              <Globe className="w-4 h-4" />
+          <div className="flex items-center justify-between pt-2 border-t border-white/10 text-emerald-200">
+            <div className="flex items-center gap-3">
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="LinkedIn">
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Twitter / X">
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Facebook">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="YouTube">
+                <Youtube className="w-4 h-4" />
+              </a>
+              <a href="https://hustlify.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Website">
+                <Globe className="w-4 h-4" />
+              </a>
+            </div>
+
+            <a
+              href="/admin"
+              className="text-[11px] text-emerald-200/90 hover:text-white transition-colors font-medium flex items-center gap-1"
+              title="Internal Admin Portal"
+            >
+              <span>Admin</span>
+              <ChevronRight className="w-3 h-3" />
             </a>
           </div>
         </div>
       </aside>
 
       {/* =========================================================================
-          RIGHT PANEL: CLEAN, PROPORTIONATELY BALANCED FORM CARD
+          RIGHT PANEL: CLEAN, BALANCED FORM CARD (MATCHING UNTITLED UI STYLE)
       ========================================================================= */}
-      <main className="flex-1 p-6 sm:p-8 lg:p-12 flex flex-col justify-between overflow-y-auto">
+      <main className="flex-1 p-6 sm:p-9 lg:p-12 flex flex-col justify-between overflow-y-auto max-h-[900px] bg-white">
         <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl">
           
           {/* Header on right panel (Untitled UI style) */}
@@ -396,7 +435,7 @@ export default function AssessmentForm() {
               STEP 0 FIELDS: COMPANY & CONTACT INFO (Clean 2-Column Grid)
           ===================================================================== */}
           {currentStep === 0 && (
-            <div className="space-y-5">
+            <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
@@ -465,6 +504,61 @@ export default function AssessmentForm() {
                     placeholder="https://acme.com"
                     className="w-full px-4 py-3 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
+                </div>
+              </div>
+
+              {/* How can Hustlify help you? (Matching Untitled UI reference) */}
+              <div className="pt-1">
+                <label className="block text-xs font-bold text-slate-800 mb-2.5">
+                  How can Hustlify help your organization? (Select all that apply)
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {[
+                    "CRM Architecture & Setup",
+                    "Sales Pipeline Automation",
+                    "Lead Qualification & Routing",
+                    "Performance Analytics & Dashboards",
+                    "Sales Team Training & Playbooks",
+                    "Workflow & Tool Integration",
+                  ].map((topic) => {
+                    const isSelected = (formData.helpTopics || []).includes(topic);
+                    return (
+                      <button
+                        key={topic}
+                        type="button"
+                        onClick={() => toggleHelpTopic(topic)}
+                        className={`flex items-center gap-3 p-3 rounded-xl border text-left text-xs font-medium transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-emerald-50 border-emerald-600 text-emerald-950 font-semibold shadow-sm"
+                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <div
+                          className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border transition-colors ${
+                            isSelected
+                              ? "bg-emerald-600 border-emerald-600 text-white"
+                              : "border-slate-300 bg-white"
+                          }`}
+                        >
+                          {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                        </div>
+                        <span className="truncate">{topic}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Quick Trust / Scope Row */}
+              <div className="grid grid-cols-3 gap-2 pt-1 border-t border-slate-100 text-[11px] text-slate-500 text-center">
+                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
+                  🔒 100% Confidential
+                </div>
+                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
+                  ⏱️ 5–8 Min Assessment
+                </div>
+                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
+                  🎙️ Voice & Text Notes
                 </div>
               </div>
             </div>
@@ -1023,12 +1117,12 @@ export default function AssessmentForm() {
               <div />
             )}
 
-            <div>
+            <div className={currentStep === 0 ? "w-full sm:w-auto" : ""}>
               {currentStep < steps.length - 1 ? (
                 <button
                   type="button"
                   onClick={() => setCurrentStep((prev) => prev + 1)}
-                  className="py-3.5 px-8 rounded-full text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-xl shadow-slate-950/15 flex items-center gap-2 transition-all cursor-pointer"
+                  className="w-full sm:w-auto py-3.5 px-8 rounded-full text-xs sm:text-sm font-bold bg-slate-950 hover:bg-slate-800 text-white shadow-xl shadow-slate-950/15 flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   Continue to {steps[currentStep + 1].title} <ChevronRight className="w-4 h-4" />
                 </button>
@@ -1036,7 +1130,7 @@ export default function AssessmentForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="py-4 px-10 rounded-full text-xs sm:text-sm font-extrabold bg-slate-900 hover:bg-slate-800 text-white shadow-xl shadow-slate-950/20 flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto py-4 px-10 rounded-full text-xs sm:text-sm font-extrabold bg-slate-950 hover:bg-slate-800 text-white shadow-xl shadow-slate-950/20 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
