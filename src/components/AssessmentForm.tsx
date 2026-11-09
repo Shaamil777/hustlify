@@ -65,7 +65,7 @@ const INITIAL_DATA: AssessmentFormData = {
   q28_stakeholdersInvolved: "",
 };
 
-const STORAGE_KEY = "hustlify_draft_split_v1";
+const STORAGE_KEY = "hustlify_draft_centered_v1";
 
 export default function AssessmentForm() {
   const [formData, setFormData] = useState<AssessmentFormData>(INITIAL_DATA);
@@ -193,74 +193,71 @@ export default function AssessmentForm() {
       id: 0,
       stepNumber: "01",
       title: "Company Profile",
-      desc: "Contact information & company details",
+      desc: "Contact details & company info",
       icon: Building2,
     },
     {
       id: 1,
       stepNumber: "02",
       title: "Business & Operations",
-      desc: "Questions 1–15 & voice inputs",
+      desc: "Questions 1–15 & voice notes",
       icon: Briefcase,
     },
     {
       id: 2,
       stepNumber: "03",
       title: "Sales & Lead Mgmt",
-      desc: "Questions 16–28 & conversion strategy",
+      desc: "Questions 16–28 & strategy",
       icon: Rocket,
     },
     {
       id: 3,
       stepNumber: "04",
       title: "Review & Submit",
-      desc: "Summary & voice notes verification",
+      desc: "Verify answers & recordings",
       icon: CheckCircle2,
     },
   ];
 
   if (submitSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 text-center max-w-lg shadow-xl">
-          <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-            <Check className="w-8 h-8 stroke-[3]" />
-          </div>
-
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Assessment Received!
-          </h2>
-
-          <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-            Thank you, <span className="font-semibold text-slate-900">{formData.contactPerson || "Partner"}</span>. Your business assessment and voice notes for{" "}
-            <span className="font-semibold text-emerald-700">{formData.companyName || "your company"}</span> have been logged and synced.
-          </p>
-
-          <div className="inline-block bg-slate-50 border border-slate-200 rounded-xl px-5 py-3 mb-6 text-left">
-            <div className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Reference ID</div>
-            <div className="text-lg font-mono font-bold text-emerald-700">{submissionId}</div>
-          </div>
-
-          <p className="text-xs text-slate-400">
-            Our team will review your operational requirements and reach out via {formData.email || "email"}.
-          </p>
+      <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-14 text-center max-w-xl mx-auto shadow-2xl">
+        <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <Check className="w-8 h-8 stroke-[3]" />
         </div>
+
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">
+          Assessment Received!
+        </h2>
+
+        <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+          Thank you, <span className="font-semibold text-slate-900">{formData.contactPerson || "Partner"}</span>. Your business assessment and voice notes for{" "}
+          <span className="font-semibold text-emerald-700">{formData.companyName || "your company"}</span> have been logged and synced to our team.
+        </p>
+
+        <div className="inline-block bg-slate-50 border border-slate-200 rounded-xl px-5 py-3 mb-6 text-left">
+          <div className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Reference ID</div>
+          <div className="text-lg font-mono font-bold text-emerald-700">{submissionId}</div>
+        </div>
+
+        <p className="text-xs text-slate-400">
+          Our senior consultants will review your responses and connect via {formData.email || "email"} shortly.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-slate-100/80 p-2 sm:p-4 lg:p-6 gap-4 lg:gap-6 font-sans">
+    <div className="max-w-6xl xl:max-w-7xl w-full mx-auto bg-white rounded-3xl lg:rounded-[2.5rem] shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[700px]">
       
       {/* =========================================================================
           LEFT PANEL: EMERALD GREEN GRADIENT WITH LOGO & INTERACTIVE STEP SELECTOR
       ========================================================================= */}
-      <aside className="w-full lg:w-[380px] xl:w-[420px] emerald-hero-gradient text-white rounded-3xl lg:rounded-[2rem] p-6 lg:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden flex-shrink-0">
+      <aside className="w-full lg:w-[360px] xl:w-[400px] emerald-hero-gradient text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden flex-shrink-0">
         
         {/* Top: Logo placed in the exact position as the reference image */}
         <div className="space-y-8 relative z-10">
           <div className="flex items-center gap-3">
-            {/* Hustlify Brand Mark Icon */}
             <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center text-white font-black text-lg shadow-sm">
               <Sparkles className="w-5 h-5 text-emerald-200" />
             </div>
@@ -274,14 +271,13 @@ export default function AssessmentForm() {
             </div>
           </div>
 
-          {/* Stepper Navigation: Selecting a step changes the right panel */}
+          {/* Stepper Navigation */}
           <div className="space-y-2 pt-2">
-            <div className="text-[11px] font-semibold tracking-wider uppercase text-emerald-200/80 px-2 pb-1">
+            <div className="text-[11px] font-semibold tracking-wider uppercase text-emerald-200/80 px-1 pb-1">
               Assessment Steps
             </div>
 
             {steps.map((s) => {
-              const Icon = s.icon;
               const isActive = currentStep === s.id;
               const isPast = currentStep > s.id;
 
@@ -334,7 +330,7 @@ export default function AssessmentForm() {
           </div>
         </div>
 
-        {/* Bottom Contact / Help Info (Matching Untitled UI reference styling) */}
+        {/* Bottom Contact / Help Info */}
         <div className="mt-8 pt-6 border-t border-white/15 space-y-4 relative z-10 text-xs">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
@@ -354,7 +350,6 @@ export default function AssessmentForm() {
             </div>
           </div>
 
-          {/* Social media links matching bottom left icons in reference */}
           <div className="flex items-center gap-3 pt-2 text-emerald-200">
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="LinkedIn">
               <Linkedin className="w-4 h-4" />
@@ -376,36 +371,33 @@ export default function AssessmentForm() {
       </aside>
 
       {/* =========================================================================
-          RIGHT PANEL: CLEAN CARD THAT CHANGES AS STEPS ARE SELECTED ON THE LEFT
+          RIGHT PANEL: CLEAN, PROPORTIONATELY BALANCED FORM CARD
       ========================================================================= */}
-      <main className="flex-1 bg-white rounded-3xl lg:rounded-[2rem] p-6 sm:p-8 lg:p-12 border border-slate-200/90 shadow-xl flex flex-col justify-between overflow-y-auto">
+      <main className="flex-1 p-6 sm:p-8 lg:p-12 flex flex-col justify-between overflow-y-auto">
         <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl">
           
-          {/* Header on right panel */}
+          {/* Header on right panel (Untitled UI style) */}
           <div className="space-y-2 border-b border-slate-100 pb-5">
-            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-100">
-              {steps[currentStep].title} • Step {currentStep + 1} of {steps.length}
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-              {currentStep === 0 && "Company Profile & Point of Contact"}
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+              {currentStep === 0 && "Got goals? We've got the expertise. Let's team up."}
               {currentStep === 1 && "1. Business & Operations Assessment"}
               {currentStep === 2 && "2. Sales & Lead Management"}
               {currentStep === 3 && "Review Your Responses"}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-2xl">
-              {currentStep === 0 && "Tell us more about yourself, your organization, and what you're got in mind."}
-              {currentStep === 1 && "Help Hustlify gain a better understanding of existing operations and operational friction (Questions 1–15)."}
-              {currentStep === 2 && "Detail your acquisition pipeline, conversion rates, and sales leadership challenges (Questions 16–28)."}
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+              {currentStep === 0 && "Tell us more about yourself, your organization, and what you've got in mind."}
+              {currentStep === 1 && "Help Hustlify gain a better understanding of existing operations, sales workflows, and organizational friction (Questions 1–15)."}
+              {currentStep === 2 && "Detail your acquisition pipeline, conversion rates, and sales leadership mechanics (Questions 16–28)."}
               {currentStep === 3 && "Review all answers and verify recorded voice notes before final submission."}
             </p>
           </div>
 
           {/* =====================================================================
-              STEP 0 FIELDS: COMPANY & CONTACT INFO
+              STEP 0 FIELDS: COMPANY & CONTACT INFO (Clean 2-Column Grid)
           ===================================================================== */}
           {currentStep === 0 && (
             <div className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
                     Your Name & Designation <span className="text-emerald-600">*</span>
@@ -483,171 +475,171 @@ export default function AssessmentForm() {
           ===================================================================== */}
           {currentStep === 1 && (
             <div className="space-y-6">
-              {/* Q1 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  1. Incentive per sale?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q1_incentivePerSale}
-                  onChange={(e) => updateField("q1_incentivePerSale", e.target.value)}
-                  placeholder="e.g. 5% commission per contract or $250 flat"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
-
-              {/* Q2 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  2. Which CRM tools are you currently using?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q2_currentCrmTools}
-                  onChange={(e) => updateField("q2_currentCrmTools", e.target.value)}
-                  placeholder="e.g. HubSpot, Zoho, Salesforce, Notion, Excel..."
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
-
-              {/* Q3 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  3. Who is your target audience?
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.q3_targetAudience}
-                  onChange={(e) => updateField("q3_targetAudience", e.target.value)}
-                  placeholder="e.g. Mid-sized B2B SaaS founders, logistics companies..."
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
-
-              {/* Q4 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-2">
-                  4. Are you marketing a product or providing a service?
-                </label>
-                <div className="grid grid-cols-3 gap-2.5 max-w-md">
-                  {["Product", "Service", "Both"].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => updateField("q4_productOrService", opt)}
-                      className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
-                        formData.q4_productOrService === opt
-                          ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
-                          : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Q1 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    1. Incentive per sale?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q1_incentivePerSale}
+                    onChange={(e) => updateField("q1_incentivePerSale", e.target.value)}
+                    placeholder="e.g. 5% commission or $250 flat"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
                 </div>
-              </div>
 
-              {/* Q5 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  5. What is the current salary structure?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q5_salaryStructure}
-                  onChange={(e) => updateField("q5_salaryStructure", e.target.value)}
-                  placeholder="e.g. Fixed base + performance tiers, or hourly contractor"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q2 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    2. Current CRM tools in use?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q2_currentCrmTools}
+                    onChange={(e) => updateField("q2_currentCrmTools", e.target.value)}
+                    placeholder="e.g. HubSpot, Zoho, Salesforce, Notion, Excel..."
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q6 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  6. How do you manage time and daily activities?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q6_timeManagement}
-                  onChange={(e) => updateField("q6_timeManagement", e.target.value)}
-                  placeholder="e.g. Google Calendar, Slack standups, Asana, Monday"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q3 */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    3. Who is your target audience?
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.q3_targetAudience}
+                    onChange={(e) => updateField("q3_targetAudience", e.target.value)}
+                    placeholder="e.g. Mid-sized B2B software founders, logistics companies..."
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q7 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  7. How many employee resignations occur per year?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q7_employeeResignationsPerYear}
-                  onChange={(e) => updateField("q7_employeeResignationsPerYear", e.target.value)}
-                  placeholder="e.g. 1-2 per year"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q4 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-2">
+                    4. Product or service?
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["Product", "Service", "Both"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => updateField("q4_productOrService", opt)}
+                        className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
+                          formData.q4_productOrService === opt
+                            ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              {/* Q8: VOICE INPUT REQUIRED */}
-              <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
-                <label className="block text-xs font-bold text-slate-900 mb-1">
-                  8. What is your biggest business pain point? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
-                </label>
-                <AudioRecorder
-                  questionNumber={8}
-                  label="Speak openly about operational bottlenecks, revenue leaks, or delays:"
-                  onRecordingComplete={(blob) => handleAudioComplete("q8", blob)}
-                  onDeleteRecording={() => handleDeleteAudio("q8")}
-                  existingAudioUrl={voiceUrls.q8}
-                />
-                <textarea
-                  rows={2}
-                  value={formData.q8_biggestPainPoint}
-                  onChange={(e) => updateField("q8_biggestPainPoint", e.target.value)}
-                  placeholder="Optional written summary or notes..."
-                  className="w-full mt-2 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q5 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    5. Salary structure?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q5_salaryStructure}
+                    onChange={(e) => updateField("q5_salaryStructure", e.target.value)}
+                    placeholder="e.g. Base salary + commission tiers"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q9: VOICE INPUT REQUIRED */}
-              <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
-                <label className="block text-xs font-bold text-slate-900 mb-1">
-                  9. What is the primary goal of this consultation? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
-                </label>
-                <AudioRecorder
-                  questionNumber={9}
-                  label="Describe what a completely successful outcome looks like:"
-                  onRecordingComplete={(blob) => handleAudioComplete("q9", blob)}
-                  onDeleteRecording={() => handleDeleteAudio("q9")}
-                  existingAudioUrl={voiceUrls.q9}
-                />
-                <textarea
-                  rows={2}
-                  value={formData.q9_consultationGoal}
-                  onChange={(e) => updateField("q9_consultationGoal", e.target.value)}
-                  placeholder="Optional written summary or notes..."
-                  className="w-full mt-2 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q6 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    6. Time & daily activities management?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q6_timeManagement}
+                    onChange={(e) => updateField("q6_timeManagement", e.target.value)}
+                    placeholder="e.g. Google Calendar, Slack standups, Asana"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q10 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  10. Can you explain your current project details?
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.q10_currentProjectDetails}
-                  onChange={(e) => updateField("q10_currentProjectDetails", e.target.value)}
-                  placeholder="Scope, deliverables, and current milestones..."
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q7 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    7. Employee resignations per year?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q7_employeeResignationsPerYear}
+                    onChange={(e) => updateField("q7_employeeResignationsPerYear", e.target.value)}
+                    placeholder="e.g. 1-2 per year"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q11, 12, 13 (Grid) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {/* Q8: VOICE INPUT REQUIRED (Full Width) */}
+                <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
+                    8. What is your biggest business pain point? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                  </label>
+                  <AudioRecorder
+                    questionNumber={8}
+                    label="Speak openly about operational bottlenecks, revenue leaks, or delays:"
+                    onRecordingComplete={(blob) => handleAudioComplete("q8", blob)}
+                    onDeleteRecording={() => handleDeleteAudio("q8")}
+                    existingAudioUrl={voiceUrls.q8}
+                  />
+                  <textarea
+                    rows={2}
+                    value={formData.q8_biggestPainPoint}
+                    onChange={(e) => updateField("q8_biggestPainPoint", e.target.value)}
+                    placeholder="Optional written summary or notes..."
+                    className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
+                  />
+                </div>
+
+                {/* Q9: VOICE INPUT REQUIRED (Full Width) */}
+                <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
+                    9. What is the primary goal of this consultation? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                  </label>
+                  <AudioRecorder
+                    questionNumber={9}
+                    label="Describe what a completely successful outcome looks like:"
+                    onRecordingComplete={(blob) => handleAudioComplete("q9", blob)}
+                    onDeleteRecording={() => handleDeleteAudio("q9")}
+                    existingAudioUrl={voiceUrls.q9}
+                  />
+                  <textarea
+                    rows={2}
+                    value={formData.q9_consultationGoal}
+                    onChange={(e) => updateField("q9_consultationGoal", e.target.value)}
+                    placeholder="Optional written summary or notes..."
+                    className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
+                  />
+                </div>
+
+                {/* Q10 */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    10. Current project details?
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.q10_currentProjectDetails}
+                    onChange={(e) => updateField("q10_currentProjectDetails", e.target.value)}
+                    placeholder="Scope, deliverables, and current milestones..."
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
+
+                {/* Q11, 12, 13 (Grid) */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
                     11. Projects onboarded?
@@ -674,7 +666,7 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    13. Completed?
+                    13. Projects completed?
                   </label>
                   <input
                     type="text"
@@ -684,39 +676,39 @@ export default function AssessmentForm() {
                     className="w-full px-3.5 py-2 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
                 </div>
-              </div>
 
-              {/* Q14: Social Links */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1">
-                  14. Social media links (LinkedIn, X, Instagram, Facebook, etc.)
-                </label>
-                <SocialLinksInput
-                  links={formData.q14_socialLinks}
-                  onChange={(links: SocialLink[]) => updateField("q14_socialLinks", links)}
-                />
-              </div>
+                {/* Q15: Dashboard Reports */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-2">
+                    15. Dashboard reports?
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {["Yes", "No", "In Progress", "Partially"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => updateField("q15_dashboardReports", opt)}
+                        className={`py-2 px-2.5 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
+                          formData.q15_dashboardReports === opt
+                            ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              {/* Q15: Dashboard Reports */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-2">
-                  15. Do you maintain dashboard reports?
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {["Yes", "No", "In Progress", "Partially"].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => updateField("q15_dashboardReports", opt)}
-                      className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
-                        formData.q15_dashboardReports === opt
-                          ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
-                          : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+                {/* Q14: Social Links (Full Width) */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1">
+                    14. Social media links (LinkedIn, X, Instagram, Facebook, etc.)
+                  </label>
+                  <SocialLinksInput
+                    links={formData.q14_socialLinks}
+                    onChange={(links: SocialLink[]) => updateField("q14_socialLinks", links)}
+                  />
                 </div>
               </div>
             </div>
@@ -727,22 +719,22 @@ export default function AssessmentForm() {
           ===================================================================== */}
           {currentStep === 2 && (
             <div className="space-y-6">
-              {/* Q16 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  16. What is your current lead conversion process?
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.q16_leadConversionProcess}
-                  onChange={(e) => updateField("q16_leadConversionProcess", e.target.value)}
-                  placeholder="e.g. Inbound form -> qualification call -> discovery demo -> contract"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Q16 (Full Width) */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    16. What is your current lead conversion process?
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.q16_leadConversionProcess}
+                    onChange={(e) => updateField("q16_leadConversionProcess", e.target.value)}
+                    placeholder="e.g. Inbound form -> qualification call -> discovery demo -> contract"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q17 & Q18 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Q17 & Q18 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
                     17. Industry / Field?
@@ -767,10 +759,8 @@ export default function AssessmentForm() {
                     className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
                 </div>
-              </div>
 
-              {/* Q19 & Q20 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Q19 & Q20 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
                     19. Sales Team Size?
@@ -795,68 +785,66 @@ export default function AssessmentForm() {
                     className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
                 </div>
-              </div>
 
-              {/* Q21 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  21. Primary lead generation sources?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q21_leadGenerationSources}
-                  onChange={(e) => updateField("q21_leadGenerationSources", e.target.value)}
-                  placeholder="e.g. LinkedIn Outbound, Ads, SEO, Word of mouth"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
-
-              {/* Q22: VOICE INPUT REQUIRED */}
-              <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
-                <label className="block text-xs font-bold text-slate-900 mb-1">
-                  22. What is your current sales and marketing strategy? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
-                </label>
-                <AudioRecorder
-                  questionNumber={22}
-                  label="Describe how you position offerings, generate pipeline, and close deals:"
-                  onRecordingComplete={(blob) => handleAudioComplete("q22", blob)}
-                  onDeleteRecording={() => handleDeleteAudio("q22")}
-                  existingAudioUrl={voiceUrls.q22}
-                />
-                <textarea
-                  rows={2}
-                  value={formData.q22_salesMarketingStrategy}
-                  onChange={(e) => updateField("q22_salesMarketingStrategy", e.target.value)}
-                  placeholder="Optional written summary or notes..."
-                  className="w-full mt-2 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
-                />
-              </div>
-
-              {/* Q23 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-2">
-                  23. Do you have a dedicated sales lead or sales head?
-                </label>
-                <div className="grid grid-cols-3 gap-2.5 max-w-md">
-                  {["Yes", "No", "Looking to hire"].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => updateField("q23_dedicatedSalesLead", opt)}
-                      className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
-                        formData.q23_dedicatedSalesLead === opt
-                          ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
-                          : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+                {/* Q21 (Full Width) */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    21. Primary lead generation sources?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q21_leadGenerationSources}
+                    onChange={(e) => updateField("q21_leadGenerationSources", e.target.value)}
+                    placeholder="e.g. LinkedIn Outbound, Ads, SEO, Word of mouth"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
                 </div>
-              </div>
 
-              {/* Q24 & Q25 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Q22: VOICE INPUT REQUIRED (Full Width) */}
+                <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
+                    22. What is your current sales and marketing strategy? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                  </label>
+                  <AudioRecorder
+                    questionNumber={22}
+                    label="Describe how you position offerings, generate pipeline, and close deals:"
+                    onRecordingComplete={(blob) => handleAudioComplete("q22", blob)}
+                    onDeleteRecording={() => handleDeleteAudio("q22")}
+                    existingAudioUrl={voiceUrls.q22}
+                  />
+                  <textarea
+                    rows={2}
+                    value={formData.q22_salesMarketingStrategy}
+                    onChange={(e) => updateField("q22_salesMarketingStrategy", e.target.value)}
+                    placeholder="Optional written summary or notes..."
+                    className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
+                  />
+                </div>
+
+                {/* Q23 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-2">
+                    23. Dedicated sales lead or head?
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["Yes", "No", "Looking"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => updateField("q23_dedicatedSalesLead", opt)}
+                        className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
+                          formData.q23_dedicatedSalesLead === opt
+                            ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q24 & Q25 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
                     24. Current conversion ratio per month?
@@ -881,55 +869,55 @@ export default function AssessmentForm() {
                     className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
                 </div>
-              </div>
 
-              {/* Q26 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  26. Biggest challenges faced by your sales team?
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.q26_salesTeamChallenges}
-                  onChange={(e) => updateField("q26_salesTeamChallenges", e.target.value)}
-                  placeholder="e.g. Unqualified leads, slow follow-ups, manual data entry"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q26 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    26. Biggest team challenges?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q26_salesTeamChallenges}
+                    onChange={(e) => updateField("q26_salesTeamChallenges", e.target.value)}
+                    placeholder="e.g. Unqualified leads, slow follow-ups"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q27: VOICE INPUT REQUIRED */}
-              <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
-                <label className="block text-xs font-bold text-slate-900 mb-1">
-                  27. What is your current sales training method? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
-                </label>
-                <AudioRecorder
-                  questionNumber={27}
-                  label="How do you onboard new sales reps, review calls, and sharpen objection handling:"
-                  onRecordingComplete={(blob) => handleAudioComplete("q27", blob)}
-                  onDeleteRecording={() => handleDeleteAudio("q27")}
-                  existingAudioUrl={voiceUrls.q27}
-                />
-                <textarea
-                  rows={2}
-                  value={formData.q27_salesTrainingMethod}
-                  onChange={(e) => updateField("q27_salesTrainingMethod", e.target.value)}
-                  placeholder="Optional written summary or notes..."
-                  className="w-full mt-2 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
-                />
-              </div>
+                {/* Q27: VOICE INPUT REQUIRED (Full Width) */}
+                <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
+                    27. What is your current sales training method? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                  </label>
+                  <AudioRecorder
+                    questionNumber={27}
+                    label="How do you onboard new sales reps, review calls, and sharpen objection handling:"
+                    onRecordingComplete={(blob) => handleAudioComplete("q27", blob)}
+                    onDeleteRecording={() => handleDeleteAudio("q27")}
+                    existingAudioUrl={voiceUrls.q27}
+                  />
+                  <textarea
+                    rows={2}
+                    value={formData.q27_salesTrainingMethod}
+                    onChange={(e) => updateField("q27_salesTrainingMethod", e.target.value)}
+                    placeholder="Optional written summary or notes..."
+                    className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
+                  />
+                </div>
 
-              {/* Q28 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  28. Who are all involved in sales and lead management?
-                </label>
-                <input
-                  type="text"
-                  value={formData.q28_stakeholdersInvolved}
-                  onChange={(e) => updateField("q28_stakeholdersInvolved", e.target.value)}
-                  placeholder="e.g. Founder, 2 Closers, 1 SDR, Marketing agency"
-                  className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
-                />
+                {/* Q28 (Full Width) */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    28. Who are all involved in sales and lead management?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.q28_stakeholdersInvolved}
+                    onChange={(e) => updateField("q28_stakeholdersInvolved", e.target.value)}
+                    placeholder="e.g. Founder, 2 Closers, 1 SDR, Marketing agency"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
               </div>
             </div>
           )}
