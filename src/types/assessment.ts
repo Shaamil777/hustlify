@@ -18,7 +18,6 @@ export interface AssessmentFormData {
   email: string;
   phone: string;
   website?: string;
-  helpTopics?: string[];
 
   // Section 1: Business & Operations
   q1_incentivePerSale: string;

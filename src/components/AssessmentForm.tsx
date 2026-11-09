@@ -31,7 +31,6 @@ const INITIAL_DATA: AssessmentFormData = {
   email: "",
   phone: "",
   website: "",
-  helpTopics: ["CRM Implementation", "Sales Automation"],
 
   q1_incentivePerSale: "",
   q2_currentCrmTools: "",
@@ -106,19 +105,6 @@ export default function AssessmentForm() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       } catch {}
       return updated;
-    });
-  };
-
-  const toggleHelpTopic = (topic: string) => {
-    setFormData((prev) => {
-      const current = prev.helpTopics || [];
-      const updated = current.includes(topic)
-        ? current.filter((t) => t !== topic)
-        : [...current, topic];
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...prev, helpTopics: updated }));
-      } catch {}
-      return { ...prev, helpTopics: updated };
     });
   };
 
@@ -502,61 +488,6 @@ export default function AssessmentForm() {
                     placeholder="https://acme.com"
                     className="w-full px-4 py-3 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
-                </div>
-              </div>
-
-              {/* How can Hustlify help you? (Matching Untitled UI reference) */}
-              <div className="pt-1">
-                <label className="block text-xs font-bold text-slate-800 mb-2.5">
-                  How can Hustlify help your organization? (Select all that apply)
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {[
-                    "CRM Architecture & Setup",
-                    "Sales Pipeline Automation",
-                    "Lead Qualification & Routing",
-                    "Performance Analytics & Dashboards",
-                    "Sales Team Training & Playbooks",
-                    "Workflow & Tool Integration",
-                  ].map((topic) => {
-                    const isSelected = (formData.helpTopics || []).includes(topic);
-                    return (
-                      <button
-                        key={topic}
-                        type="button"
-                        onClick={() => toggleHelpTopic(topic)}
-                        className={`flex items-center gap-3 p-3 rounded-xl border text-left text-xs font-medium transition-all cursor-pointer ${
-                          isSelected
-                            ? "bg-emerald-50 border-emerald-600 text-emerald-950 font-semibold shadow-sm"
-                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
-                        }`}
-                      >
-                        <div
-                          className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border transition-colors ${
-                            isSelected
-                              ? "bg-emerald-600 border-emerald-600 text-white"
-                              : "border-slate-300 bg-white"
-                          }`}
-                        >
-                          {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                        </div>
-                        <span className="truncate">{topic}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Quick Trust / Scope Row */}
-              <div className="grid grid-cols-3 gap-2 pt-1 border-t border-slate-100 text-[11px] text-slate-500 text-center">
-                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
-                  🔒 100% Confidential
-                </div>
-                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
-                  ⏱️ 5–8 Min Assessment
-                </div>
-                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 font-medium">
-                  🎙️ Voice & Text Notes
                 </div>
               </div>
             </div>
