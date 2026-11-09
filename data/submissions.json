@@ -1,5 +1,49 @@
 [
   {
+    "companyName": "",
+    "contactPerson": "",
+    "email": "",
+    "phone": "",
+    "website": "",
+    "q1_incentivePerSale": "",
+    "q2_currentCrmTools": "",
+    "q3_targetAudience": "",
+    "q4_productOrService": "",
+    "q5_salaryStructure": "",
+    "q6_timeManagement": "",
+    "q7_employeeResignationsPerYear": "",
+    "q8_biggestPainPoint": "",
+    "q9_consultationGoal": "",
+    "q10_currentProjectDetails": "",
+    "q11_projectsOnboarded": "",
+    "q12_totalProjectVolume": "",
+    "q13_projectsCompleted": "",
+    "q14_socialLinks": [
+      {
+        "id": "1",
+        "platform": "linkedin",
+        "url": ""
+      }
+    ],
+    "q15_dashboardReports": "",
+    "q16_leadConversionProcess": "",
+    "q17_industryField": "",
+    "q18_establishedYear": "",
+    "q19_salesTeamSize": "",
+    "q20_salesTeamExperience": "",
+    "q21_leadGenerationSources": "",
+    "q22_salesMarketingStrategy": "",
+    "q23_dedicatedSalesLead": "",
+    "q24_monthlyConversionRatio": "",
+    "q25_expectedConversionRatio": "",
+    "q26_salesTeamChallenges": "",
+    "q27_salesTrainingMethod": "",
+    "q28_stakeholdersInvolved": "",
+    "id": "HT-563389",
+    "submittedAt": "2026-11-09T15:18:57.433Z",
+    "status": "new"
+  },
+  {
     "companyName": "Apex Technologies Global",
     "contactPerson": "Marcus Vance (Managing Director)",
     "email": "marcus@apextech.io",
@@ -53,4 +97,3 @@
     "status": "new"
   }
 ]
-

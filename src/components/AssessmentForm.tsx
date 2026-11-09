@@ -13,12 +13,7 @@ import {
   Mail, 
   Phone, 
   Sparkles, 
-  AlertCircle,
-  Globe,
-  Linkedin,
-  Twitter,
-  Facebook,
-  Youtube
+  AlertCircle
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import AudioRecorder from "./AudioRecorder";
@@ -345,42 +340,24 @@ export default function AssessmentForm() {
         {/* Bottom Contact / Help Info */}
         <div className="mt-8 pt-6 border-t border-white/15 space-y-4 relative z-10 text-xs">
           <div className="space-y-3">
-            <a href="mailto:consult@hustlify.com" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
+            <a href="mailto:hustlify.in@gmail.com" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
               <Mail className="w-4 h-4 text-emerald-200 mt-0.5 flex-shrink-0" />
               <div>
                 <span className="font-semibold block text-white text-[11px]">Chat to our team</span>
-                <span className="text-emerald-100/80 text-[11px]">consult@hustlify.com</span>
+                <span className="text-emerald-100/90 text-xs font-medium">hustlify.in@gmail.com</span>
               </div>
             </a>
 
-            <a href="tel:+15550192834" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
+            <a href="tel:+919048643334" className="flex items-start gap-3 text-white hover:text-emerald-100 transition-colors">
               <Phone className="w-4 h-4 text-emerald-200 mt-0.5 flex-shrink-0" />
               <div>
                 <span className="font-semibold block text-white text-[11px]">Consultation inquiries</span>
-                <span className="text-emerald-100/80 text-[11px]">+1 (555) 019-2834</span>
+                <span className="text-emerald-100/90 text-xs font-medium">+91 9048643334</span>
               </div>
             </a>
           </div>
 
-          <div className="flex items-center justify-between pt-2 border-t border-white/10 text-emerald-200">
-            <div className="flex items-center gap-3">
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Twitter / X">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="YouTube">
-                <Youtube className="w-4 h-4" />
-              </a>
-              <a href="https://hustlify.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" title="Website">
-                <Globe className="w-4 h-4" />
-              </a>
-            </div>
-
+          <div className="flex items-center justify-end pt-2 border-t border-white/10 text-emerald-200">
             <a
               href="/admin"
               className="text-[11px] text-emerald-200/90 hover:text-white transition-colors font-medium flex items-center gap-1"
