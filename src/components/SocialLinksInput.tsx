@@ -33,63 +33,43 @@ export default function SocialLinksInput({ links, onChange }: SocialLinksInputPr
     onChange(links.filter((l) => l.id !== id));
   };
 
-  const getPlatformIcon = (platform: string) => {
-    switch (platform) {
-      case "linkedin":
-        return <Linkedin className="w-4 h-4 text-sky-600" />;
-      case "x":
-        return <Twitter className="w-4 h-4 text-slate-800" />;
-      case "instagram":
-        return <Instagram className="w-4 h-4 text-pink-600" />;
-      case "facebook":
-        return <Facebook className="w-4 h-4 text-blue-600" />;
-      case "youtube":
-        return <Youtube className="w-4 h-4 text-red-600" />;
-      default:
-        return <Globe className="w-4 h-4 text-indigo-600" />;
-    }
-  };
-
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 mt-2">
       {links.length === 0 && (
-        <p className="text-xs text-slate-400 italic">No social links added yet. Click &quot;+ Add Social Link&quot; below.</p>
+        <p className="text-xs text-neutral-400 italic">No links added yet.</p>
       )}
 
       {links.map((item) => (
         <div key={item.id} className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 min-w-[135px] shadow-sm">
-            {getPlatformIcon(item.platform)}
-            <select
-              value={item.platform}
-              onChange={(e) => updateLink(item.id, "platform", e.target.value)}
-              className="bg-transparent border-none text-xs text-slate-700 font-semibold focus:outline-none w-full cursor-pointer"
-            >
-              <option value="linkedin">LinkedIn</option>
-              <option value="x">X / Twitter</option>
-              <option value="instagram">Instagram</option>
-              <option value="facebook">Facebook</option>
-              <option value="youtube">YouTube</option>
-              <option value="website">Website</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+          <select
+            value={item.platform}
+            onChange={(e) => updateLink(item.id, "platform", e.target.value)}
+            className="px-2.5 py-1.5 bg-neutral-50 border border-neutral-200 rounded text-xs text-neutral-700 font-normal focus:outline-none focus:border-neutral-900 cursor-pointer min-w-[110px]"
+          >
+            <option value="linkedin">LinkedIn</option>
+            <option value="x">X (Twitter)</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="youtube">YouTube</option>
+            <option value="website">Website</option>
+            <option value="other">Other</option>
+          </select>
 
           <input
             type="url"
             value={item.url}
             onChange={(e) => updateLink(item.id, "url", e.target.value)}
             placeholder="https://..."
-            className="flex-1 px-3.5 py-2 text-xs text-slate-800 input-executive rounded-xl shadow-sm"
+            className="flex-1 px-3 py-1.5 text-xs text-neutral-900 minimal-input rounded"
           />
 
           <button
             type="button"
             onClick={() => removeLink(item.id)}
-            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-            title="Remove link"
+            className="p-1.5 text-neutral-400 hover:text-neutral-700 transition-colors cursor-pointer"
+            title="Remove"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       ))}
@@ -97,10 +77,10 @@ export default function SocialLinksInput({ links, onChange }: SocialLinksInputPr
       <button
         type="button"
         onClick={addLink}
-        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-indigo-700 hover:text-indigo-800 bg-indigo-50/70 hover:bg-indigo-100/80 border border-indigo-200/80 rounded-xl transition-all cursor-pointer shadow-sm"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-neutral-900 pt-1 transition-colors cursor-pointer"
       >
         <Plus className="w-3.5 h-3.5" />
-        Add Social Link
+        Add another link
       </button>
     </div>
   );
