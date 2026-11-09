@@ -272,15 +272,13 @@ export default function AssessmentForm() {
         {/* Top: Brand Logo placed in the exact position as the reference image */}
         <div className="space-y-7 relative z-10">
           <div>
-            {/* The actual brand logo from /public/logo.png */}
-            <div className="inline-flex items-center px-4 py-2.5 bg-white rounded-2xl shadow-lg shadow-emerald-950/20 border border-white/80">
-              <img
-                src="/logo.png"
-                alt="Hustlify Logo"
-                className="h-9 sm:h-11 w-auto object-contain"
-              />
-            </div>
-            <div className="text-[11px] text-emerald-200/90 font-medium tracking-wide mt-2.5 px-1">
+            {/* Hustlify Brand Logo without extra container */}
+            <img
+              src="/logo.png"
+              alt="Hustlify Logo"
+              className="h-14 sm:h-16 lg:h-[70px] w-auto object-contain drop-shadow-sm"
+            />
+            <div className="text-[11px] text-emerald-200/90 font-medium tracking-wide mt-2 px-0.5">
               B2B Business Assessment & Strategy
             </div>
           </div>
