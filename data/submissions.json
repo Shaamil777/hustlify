@@ -1,0 +1,55 @@
+[
+  {
+    "companyName": "Apex Technologies Global",
+    "contactPerson": "Marcus Vance (Managing Director)",
+    "email": "marcus@apextech.io",
+    "phone": "+1 (555) 349-1100",
+    "website": "https://apextech.io",
+    "q1_incentivePerSale": "10% commission on first-year recurring revenue",
+    "q2_currentCrmTools": "HubSpot & Notion databases",
+    "q3_targetAudience": "Mid-market B2B Logistics & Supply Chain companies (50-500 employees)",
+    "q4_productOrService": "Service",
+    "q5_salaryStructure": "Base salary + quarterly performance bonus tiers",
+    "q6_timeManagement": "Asana task management + daily 15-min Slack standups",
+    "q7_employeeResignationsPerYear": "1 per year (< 6% attrition)",
+    "q8_biggestPainPoint": "Lead qualification is currently manual, taking 48 hours to route inbound leads to closing reps.",
+    "q8_voiceUrl": "",
+    "q9_consultationGoal": "Automate lead routing, implement unified CRM pipelines, and integrate WhatsApp follow-up automation.",
+    "q9_voiceUrl": "",
+    "q10_currentProjectDetails": "Deploying customer operations management systems across 4 regional fulfillment centers.",
+    "q11_projectsOnboarded": "24 enterprise clients",
+    "q12_totalProjectVolume": "$140,000 / month",
+    "q13_projectsCompleted": "85 projects delivered to date",
+    "q14_socialLinks": [
+      {
+        "id": "1",
+        "platform": "linkedin",
+        "url": "https://linkedin.com/company/apex-technologies"
+      },
+      {
+        "id": "2",
+        "platform": "website",
+        "url": "https://apextech.io"
+      }
+    ],
+    "q15_dashboardReports": "Yes",
+    "q16_leadConversionProcess": "Outbound discovery call -> 30-min technical qualification -> live custom demo -> proposal & contract signoff",
+    "q17_industryField": "B2B Logistics & Supply Chain Tech",
+    "q18_establishedYear": "2019",
+    "q19_salesTeamSize": "6 Account Executives + 2 SDRs",
+    "q20_salesTeamExperience": "3 senior closers (6+ yrs), 3 junior reps (2 yrs)",
+    "q21_leadGenerationSources": "LinkedIn Outbound, Google Search Ads, Industry Conferences, Executive Referrals",
+    "q22_salesMarketingStrategy": "Account-Based Marketing (ABM) targeting VPs of Supply Chain and Chief Operating Officers.",
+    "q22_voiceUrl": "",
+    "q23_dedicatedSalesLead": "Yes",
+    "q24_monthlyConversionRatio": "8.5%",
+    "q25_expectedConversionRatio": "16% - 20%",
+    "q26_salesTeamChallenges": "Manual CRM updates, slow response time to high-value inbound requests, objection handling on price.",
+    "q27_salesTrainingMethod": "Weekly recorded call reviews, Gong library coaching, quarterly playbook certifications.",
+    "q27_voiceUrl": "",
+    "q28_stakeholdersInvolved": "CEO, Head of Sales, Lead Marketing Manager, Operations Director",
+    "id": "HT-482910",
+    "submittedAt": "2026-11-09T18:45:00.000Z",
+    "status": "new"
+  }
+]
