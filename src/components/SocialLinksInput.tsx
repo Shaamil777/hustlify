@@ -57,6 +57,7 @@ export default function SocialLinksInput({ links, onChange }: SocialLinksInputPr
 
           <input
             type="url"
+            required
             value={item.url}
             onChange={(e) => updateLink(item.id, "url", e.target.value)}
             placeholder="https://..."

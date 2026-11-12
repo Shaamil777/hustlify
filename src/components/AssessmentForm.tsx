@@ -94,7 +94,10 @@ export default function AssessmentForm() {
     } catch {}
   }, []);
 
+  const [stepError, setStepError] = useState<string | null>(null);
+
   const updateField = (field: keyof AssessmentFormData, value: unknown) => {
+    setStepError(null);
     setFormData((prev) => {
       const updated = { ...prev, [field]: value };
       try {
@@ -102,6 +105,181 @@ export default function AssessmentForm() {
       } catch {}
       return updated;
     });
+  };
+
+  const validateCurrentStep = (step: number): boolean => {
+    setStepError(null);
+
+    if (step === 0) {
+      if (!formData.contactPerson.trim()) {
+        setStepError("Please provide your Name & Designation.");
+        return false;
+      }
+      if (!formData.companyName.trim()) {
+        setStepError("Please provide your Company / Organization Name.");
+        return false;
+      }
+      if (!formData.email.trim() || !formData.email.includes("@")) {
+        setStepError("Please provide a valid Business Email Address.");
+        return false;
+      }
+      if (!formData.phone.trim()) {
+        setStepError("Please provide your Phone / WhatsApp Number.");
+        return false;
+      }
+      if (!formData.website?.trim()) {
+        setStepError("Please provide your Company Website.");
+        return false;
+      }
+      return true;
+    }
+
+    if (step === 1) {
+      if (!formData.q1_incentivePerSale.trim()) {
+        setStepError("Please complete Q1: Incentive per sale.");
+        return false;
+      }
+      if (!formData.q2_currentCrmTools.trim()) {
+        setStepError("Please complete Q2: Current CRM tools in use.");
+        return false;
+      }
+      if (!formData.q3_targetAudience.trim()) {
+        setStepError("Please complete Q3: Target audience.");
+        return false;
+      }
+      if (!formData.q4_productOrService) {
+        setStepError("Please select an option for Q4: Product or service.");
+        return false;
+      }
+      if (!formData.q5_salaryStructure.trim()) {
+        setStepError("Please complete Q5: Salary structure.");
+        return false;
+      }
+      if (!formData.expectedOutcome.trim()) {
+        setStepError("Please complete Q6: Expected outcome from consultation.");
+        return false;
+      }
+      if (!formData.expectedTurnover.trim()) {
+        setStepError("Please complete: Expected turnover after consultation.");
+        return false;
+      }
+      if (!formData.q7_employeeResignationsPerYear.trim()) {
+        setStepError("Please complete Q7: Employee resignations per year.");
+        return false;
+      }
+      if (!voiceBlobs.q8 && !formData.q8_biggestPainPoint.trim()) {
+        setStepError("Please provide a voice note or written response for Q8: Biggest pain point.");
+        return false;
+      }
+      if (!voiceBlobs.q9 && !formData.q9_consultationGoal.trim()) {
+        setStepError("Please provide a voice note or written response for Q9: Primary consultation goal.");
+        return false;
+      }
+      if (!formData.q10_currentProjectDetails.trim()) {
+        setStepError("Please complete Q10: Current project details.");
+        return false;
+      }
+      if (!formData.q11_projectsOnboarded.trim()) {
+        setStepError("Please complete Q11: Projects onboarded.");
+        return false;
+      }
+      if (!formData.q12_totalProjectVolume.trim()) {
+        setStepError("Please complete Q12: Total project volume.");
+        return false;
+      }
+      if (!formData.q13_projectsCompleted.trim()) {
+        setStepError("Please complete Q13: Projects completed.");
+        return false;
+      }
+      if (!formData.q15_dashboardReports) {
+        setStepError("Please select an option for Q15: Dashboard reports.");
+        return false;
+      }
+      const validLinks = (formData.q14_socialLinks || []).filter((l) => l.url && l.url.trim().length > 0);
+      if (validLinks.length === 0) {
+        setStepError("Please provide at least one social media link (Q14).");
+        return false;
+      }
+      return true;
+    }
+
+    if (step === 2) {
+      if (!formData.q16_leadConversionProcess.trim()) {
+        setStepError("Please complete Q16: Current lead conversion process.");
+        return false;
+      }
+      if (!formData.q17_industryField.trim()) {
+        setStepError("Please complete Q17: Industry / Field.");
+        return false;
+      }
+      if (!formData.q18_establishedYear.trim()) {
+        setStepError("Please complete Q18: Year established.");
+        return false;
+      }
+      if (!formData.q19_salesTeamSize.trim()) {
+        setStepError("Please complete Q19: Sales team size.");
+        return false;
+      }
+      if (!formData.q20_salesTeamExperience.trim()) {
+        setStepError("Please complete Q20: Sales team experience.");
+        return false;
+      }
+      if (!formData.q21_leadGenerationSources.trim()) {
+        setStepError("Please complete Q21: Primary lead generation sources.");
+        return false;
+      }
+      if (!voiceBlobs.q22 && !formData.q22_salesMarketingStrategy.trim()) {
+        setStepError("Please provide a voice note or written response for Q22: Sales & marketing strategy.");
+        return false;
+      }
+      if (!formData.q23_dedicatedSalesLead) {
+        setStepError("Please select an option for Q23: Dedicated sales lead.");
+        return false;
+      }
+      if (!formData.q24_monthlyConversionRatio.trim()) {
+        setStepError("Please complete Q24: Monthly conversion ratio.");
+        return false;
+      }
+      if (!formData.q25_expectedConversionRatio.trim()) {
+        setStepError("Please complete Q25: Expected conversion ratio.");
+        return false;
+      }
+      if (!formData.q26_salesTeamChallenges.trim()) {
+        setStepError("Please complete Q26: Sales team challenges.");
+        return false;
+      }
+      if (!voiceBlobs.q27 && !formData.q27_salesTrainingMethod.trim()) {
+        setStepError("Please provide a voice note or written response for Q27: Sales training method.");
+        return false;
+      }
+      if (!formData.q28_stakeholdersInvolved.trim()) {
+        setStepError("Please complete Q28: Stakeholders involved in sales.");
+        return false;
+      }
+      return true;
+    }
+
+    return true;
+  };
+
+  const handleContinue = () => {
+    if (validateCurrentStep(currentStep)) {
+      setStepError(null);
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handleStepClick = (targetStep: number) => {
+    if (targetStep <= currentStep) {
+      setStepError(null);
+      setCurrentStep(targetStep);
+      return;
+    }
+    // Prevent skipping steps without completing the current step
+    if (validateCurrentStep(currentStep)) {
+      setStepError(null);
+      setCurrentStep(targetStep);
+    }
   };
 
   const handleAudioComplete = (question: "q8" | "q9" | "q22" | "q27", blob: Blob) => {
@@ -139,6 +317,19 @@ export default function AssessmentForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateCurrentStep(0)) {
+      setCurrentStep(0);
+      return;
+    }
+    if (!validateCurrentStep(1)) {
+      setCurrentStep(1);
+      return;
+    }
+    if (!validateCurrentStep(2)) {
+      setCurrentStep(2);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -293,7 +484,7 @@ export default function AssessmentForm() {
                 <button
                   key={s.id}
                   type="button"
-                  onClick={() => setCurrentStep(s.id)}
+                  onClick={() => handleStepClick(s.id)}
                   className={`w-full text-left p-3.5 rounded-2xl transition-all cursor-pointer flex items-center gap-3.5 group relative ${
                     isActive
                       ? "bg-white text-emerald-950 font-bold shadow-xl shadow-emerald-950/20 translate-x-1 border border-white"
@@ -457,10 +648,11 @@ export default function AssessmentForm() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    Company Website
+                    Company Website <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="url"
+                    required
                     value={formData.website || ""}
                     onChange={(e) => updateField("website", e.target.value)}
                     placeholder="https://acme.com"
@@ -480,10 +672,11 @@ export default function AssessmentForm() {
                 {/* Q1 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    1. Incentive per sale?
+                    1. Incentive per sale? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q1_incentivePerSale}
                     onChange={(e) => updateField("q1_incentivePerSale", e.target.value)}
                     placeholder="e.g. 5% commission or $250 flat"
@@ -494,10 +687,11 @@ export default function AssessmentForm() {
                 {/* Q2 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    2. Current CRM tools in use?
+                    2. Current CRM tools in use? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q2_currentCrmTools}
                     onChange={(e) => updateField("q2_currentCrmTools", e.target.value)}
                     placeholder="e.g. HubSpot, Zoho, Salesforce, Notion, Excel..."
@@ -508,10 +702,11 @@ export default function AssessmentForm() {
                 {/* Q3 */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    3. Who is your target audience?
+                    3. Who is your target audience? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <textarea
                     rows={2}
+                    required
                     value={formData.q3_targetAudience}
                     onChange={(e) => updateField("q3_targetAudience", e.target.value)}
                     placeholder="e.g. Mid-sized B2B software founders, logistics companies..."
@@ -522,7 +717,7 @@ export default function AssessmentForm() {
                 {/* Q4 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-2">
-                    4. Product or service?
+                    4. Product or service? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {["Product", "Service", "Both"].map((opt) => (
@@ -545,10 +740,11 @@ export default function AssessmentForm() {
                 {/* Q5 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    5. Salary structure?
+                    5. Salary structure? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q5_salaryStructure}
                     onChange={(e) => updateField("q5_salaryStructure", e.target.value)}
                     placeholder="e.g. Base salary + commission tiers"
@@ -559,10 +755,11 @@ export default function AssessmentForm() {
                 {/* Expected Outcome */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    6. Expected outcome from consultation?
+                    6. Expected outcome from consultation? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.expectedOutcome}
                     onChange={(e) => updateField("expectedOutcome", e.target.value)}
                     placeholder="e.g. Optimized sales workflow, CRM automation, clear scaling roadmap"
@@ -573,10 +770,11 @@ export default function AssessmentForm() {
                 {/* Expected Turnover */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    Expected turnover after consultation?
+                    Expected turnover after consultation? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.expectedTurnover}
                     onChange={(e) => updateField("expectedTurnover", e.target.value)}
                     placeholder="e.g. 2x revenue growth, $100k/mo, 30% margin increase"
@@ -587,10 +785,11 @@ export default function AssessmentForm() {
                 {/* Q7 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    7. Employee resignations per year?
+                    7. Employee resignations per year? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q7_employeeResignationsPerYear}
                     onChange={(e) => updateField("q7_employeeResignationsPerYear", e.target.value)}
                     placeholder="e.g. 1-2 per year"
@@ -601,7 +800,7 @@ export default function AssessmentForm() {
                 {/* Q8: VOICE INPUT REQUIRED (Full Width) */}
                 <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
                   <label className="block text-xs font-bold text-slate-900 mb-1">
-                    8. What is your biggest business pain point? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                    8. What is your biggest business pain point? <span className="text-emerald-700 font-semibold">(Voice Note or Text)</span> <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <AudioRecorder
                     questionNumber={8}
@@ -614,7 +813,7 @@ export default function AssessmentForm() {
                     rows={2}
                     value={formData.q8_biggestPainPoint}
                     onChange={(e) => updateField("q8_biggestPainPoint", e.target.value)}
-                    placeholder="Optional written summary or notes..."
+                    placeholder="Type written response if not recording audio..."
                     className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
                   />
                 </div>
@@ -622,7 +821,7 @@ export default function AssessmentForm() {
                 {/* Q9: VOICE INPUT REQUIRED (Full Width) */}
                 <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
                   <label className="block text-xs font-bold text-slate-900 mb-1">
-                    9. What is the primary goal of this consultation? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                    9. What is the primary goal of this consultation? <span className="text-emerald-700 font-semibold">(Voice Note or Text)</span> <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <AudioRecorder
                     questionNumber={9}
@@ -635,7 +834,7 @@ export default function AssessmentForm() {
                     rows={2}
                     value={formData.q9_consultationGoal}
                     onChange={(e) => updateField("q9_consultationGoal", e.target.value)}
-                    placeholder="Optional written summary or notes..."
+                    placeholder="Type written response if not recording audio..."
                     className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
                   />
                 </div>
@@ -643,10 +842,11 @@ export default function AssessmentForm() {
                 {/* Q10 */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    10. Current project details?
+                    10. Current project details? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <textarea
                     rows={2}
+                    required
                     value={formData.q10_currentProjectDetails}
                     onChange={(e) => updateField("q10_currentProjectDetails", e.target.value)}
                     placeholder="Scope, deliverables, and current milestones..."
@@ -657,10 +857,11 @@ export default function AssessmentForm() {
                 {/* Q11, 12, 13 (Grid) */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    11. Projects onboarded?
+                    11. Projects onboarded? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q11_projectsOnboarded}
                     onChange={(e) => updateField("q11_projectsOnboarded", e.target.value)}
                     placeholder="e.g. 15 clients"
@@ -669,10 +870,11 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    12. Total volume?
+                    12. Total volume? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q12_totalProjectVolume}
                     onChange={(e) => updateField("q12_totalProjectVolume", e.target.value)}
                     placeholder="e.g. $60k / mo"
@@ -681,10 +883,11 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    13. Projects completed?
+                    13. Projects completed? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q13_projectsCompleted}
                     onChange={(e) => updateField("q13_projectsCompleted", e.target.value)}
                     placeholder="e.g. 100+"
@@ -695,7 +898,7 @@ export default function AssessmentForm() {
                 {/* Q15: Dashboard Reports */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-2">
-                    15. Dashboard reports?
+                    15. Dashboard reports? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {["Yes", "No", "In Progress", "Partially"].map((opt) => (
@@ -718,7 +921,7 @@ export default function AssessmentForm() {
                 {/* Q14: Social Links (Full Width) */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1">
-                    14. Social media links (LinkedIn, X, Instagram, Facebook, etc.)
+                    14. Social media links (LinkedIn, X, Instagram, Facebook, etc.) <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <SocialLinksInput
                     links={formData.q14_socialLinks}
@@ -738,10 +941,11 @@ export default function AssessmentForm() {
                 {/* Q16 (Full Width) */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    16. What is your current lead conversion process?
+                    16. What is your current lead conversion process? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <textarea
                     rows={2}
+                    required
                     value={formData.q16_leadConversionProcess}
                     onChange={(e) => updateField("q16_leadConversionProcess", e.target.value)}
                     placeholder="e.g. Inbound form -> qualification call -> discovery demo -> contract"
@@ -752,10 +956,11 @@ export default function AssessmentForm() {
                 {/* Q17 & Q18 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    17. Industry / Field?
+                    17. Industry / Field? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q17_industryField}
                     onChange={(e) => updateField("q17_industryField", e.target.value)}
                     placeholder="e.g. B2B SaaS, Logistics, Consulting"
@@ -764,10 +969,11 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    18. Year Established?
+                    18. Year Established? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q18_establishedYear}
                     onChange={(e) => updateField("q18_establishedYear", e.target.value)}
                     placeholder="e.g. 2021"
@@ -778,10 +984,11 @@ export default function AssessmentForm() {
                 {/* Q19 & Q20 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    19. Sales Team Size?
+                    19. Sales Team Size? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q19_salesTeamSize}
                     onChange={(e) => updateField("q19_salesTeamSize", e.target.value)}
                     placeholder="e.g. 4 closers + 2 SDRs"
@@ -790,10 +997,11 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    20. Sales Team Experience Level?
+                    20. Sales Team Experience Level? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q20_salesTeamExperience}
                     onChange={(e) => updateField("q20_salesTeamExperience", e.target.value)}
                     placeholder="e.g. 2 senior reps (5+ yrs), 2 juniors"
@@ -804,10 +1012,11 @@ export default function AssessmentForm() {
                 {/* Q21 (Full Width) */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    21. Primary lead generation sources?
+                    21. Primary lead generation sources? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q21_leadGenerationSources}
                     onChange={(e) => updateField("q21_leadGenerationSources", e.target.value)}
                     placeholder="e.g. LinkedIn Outbound, Ads, SEO, Word of mouth"
@@ -818,7 +1027,7 @@ export default function AssessmentForm() {
                 {/* Q22: VOICE INPUT REQUIRED (Full Width) */}
                 <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
                   <label className="block text-xs font-bold text-slate-900 mb-1">
-                    22. What is your current sales and marketing strategy? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                    22. What is your current sales and marketing strategy? <span className="text-emerald-700 font-semibold">(Voice Note or Text)</span> <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <AudioRecorder
                     questionNumber={22}
@@ -831,7 +1040,7 @@ export default function AssessmentForm() {
                     rows={2}
                     value={formData.q22_salesMarketingStrategy}
                     onChange={(e) => updateField("q22_salesMarketingStrategy", e.target.value)}
-                    placeholder="Optional written summary or notes..."
+                    placeholder="Type written response if not recording audio..."
                     className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
                   />
                 </div>
@@ -839,7 +1048,7 @@ export default function AssessmentForm() {
                 {/* Q23 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-2">
-                    23. Dedicated sales lead or head?
+                    23. Dedicated sales lead or head? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {["Yes", "No", "Looking"].map((opt) => (
@@ -862,10 +1071,11 @@ export default function AssessmentForm() {
                 {/* Q24 & Q25 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    24. Current conversion ratio per month?
+                    24. Current conversion ratio per month? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q24_monthlyConversionRatio}
                     onChange={(e) => updateField("q24_monthlyConversionRatio", e.target.value)}
                     placeholder="e.g. 8%"
@@ -874,10 +1084,11 @@ export default function AssessmentForm() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    25. Expected conversion ratio?
+                    25. Expected conversion ratio? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q25_expectedConversionRatio}
                     onChange={(e) => updateField("q25_expectedConversionRatio", e.target.value)}
                     placeholder="e.g. 15% - 20%"
@@ -888,10 +1099,11 @@ export default function AssessmentForm() {
                 {/* Q26 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    26. Biggest team challenges?
+                    26. Biggest team challenges? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q26_salesTeamChallenges}
                     onChange={(e) => updateField("q26_salesTeamChallenges", e.target.value)}
                     placeholder="e.g. Unqualified leads, slow follow-ups"
@@ -902,7 +1114,7 @@ export default function AssessmentForm() {
                 {/* Q27: VOICE INPUT REQUIRED (Full Width) */}
                 <div className="sm:col-span-2 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
                   <label className="block text-xs font-bold text-slate-900 mb-1">
-                    27. What is your current sales training method? <span className="text-emerald-700 font-semibold">(Voice Note)</span>
+                    27. What is your current sales training method? <span className="text-emerald-700 font-semibold">(Voice Note or Text)</span> <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <AudioRecorder
                     questionNumber={27}
@@ -915,7 +1127,7 @@ export default function AssessmentForm() {
                     rows={2}
                     value={formData.q27_salesTrainingMethod}
                     onChange={(e) => updateField("q27_salesTrainingMethod", e.target.value)}
-                    placeholder="Optional written summary or notes..."
+                    placeholder="Type written response if not recording audio..."
                     className="w-full mt-2.5 px-3.5 py-2 text-xs text-slate-900 split-input rounded-xl"
                   />
                 </div>
@@ -923,10 +1135,11 @@ export default function AssessmentForm() {
                 {/* Q28 (Full Width) */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    28. Who are all involved in sales and lead management?
+                    28. Who are all involved in sales and lead management? <span className="text-emerald-600 font-bold">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.q28_stakeholdersInvolved}
                     onChange={(e) => updateField("q28_stakeholdersInvolved", e.target.value)}
                     placeholder="e.g. Founder, 2 Closers, 1 SDR, Marketing agency"
@@ -1022,6 +1235,13 @@ export default function AssessmentForm() {
             </div>
           )}
 
+          {stepError && (
+            <div className="flex items-center gap-2.5 p-3.5 text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded-xl shadow-sm">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-600" />
+              <span className="font-semibold">{stepError}</span>
+            </div>
+          )}
+
           {/* =====================================================================
               BOTTOM ACTION BUTTON (MATCHING UNTITLED UI "LET'S GET STARTED" PILL)
           ===================================================================== */}
@@ -1029,7 +1249,10 @@ export default function AssessmentForm() {
             {currentStep > 0 ? (
               <button
                 type="button"
-                onClick={() => setCurrentStep((prev) => prev - 1)}
+                onClick={() => {
+                  setStepError(null);
+                  setCurrentStep((prev) => prev - 1);
+                }}
                 className="py-3 px-5 text-xs font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" /> Previous
@@ -1042,7 +1265,7 @@ export default function AssessmentForm() {
               {currentStep < steps.length - 1 ? (
                 <button
                   type="button"
-                  onClick={() => setCurrentStep((prev) => prev + 1)}
+                  onClick={handleContinue}
                   className="w-full sm:w-auto py-3.5 px-8 rounded-full text-xs sm:text-sm font-bold bg-slate-950 hover:bg-slate-800 text-white shadow-xl shadow-slate-950/15 flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   Continue to {steps[currentStep + 1].title} <ChevronRight className="w-4 h-4" />
