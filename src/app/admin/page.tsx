@@ -79,7 +79,7 @@ export default function AdminPage() {
 
     const headers = [
       "ID", "Date", "Company", "Contact", "Email", "Phone", "Website",
-      "Q1 Incentive", "Q2 CRM", "Q3 Audience", "Q4 Offering", "Q5 Salary", "Q6 Time Mgmt",
+      "Q1 Incentive", "Q2 CRM", "Q3 Audience", "Q4 Offering", "Q5 Salary", "Expected Outcome", "Expected Turnover",
       "Q7 Resignations/Yr", "Q8 Pain Point", "Q8 Voice URL", "Q9 Goal", "Q9 Voice URL",
       "Q10 Projects", "Q11 Onboarded", "Q12 Volume", "Q13 Completed", "Q14 Social Links",
       "Q15 Dashboards", "Q16 Conversion Process", "Q17 Industry", "Q18 Established",
@@ -101,7 +101,8 @@ export default function AdminPage() {
       `"${(s.q3_targetAudience || "").replace(/"/g, '""')}"`,
       s.q4_productOrService,
       `"${(s.q5_salaryStructure || "").replace(/"/g, '""')}"`,
-      `"${(s.q6_timeManagement || "").replace(/"/g, '""')}"`,
+      `"${(s.expectedOutcome || "").replace(/"/g, '""')}"`,
+      `"${(s.expectedTurnover || "").replace(/"/g, '""')}"`,
       s.q7_employeeResignationsPerYear,
       `"${(s.q8_biggestPainPoint || "").replace(/"/g, '""')}"`,
       s.q8_voiceUrl || "",
@@ -330,7 +331,8 @@ export default function AdminPage() {
                             <div><strong className="text-neutral-900 font-medium">Q3 Target Audience:</strong> {item.q3_targetAudience || "—"}</div>
                             <div><strong className="text-neutral-900 font-medium">Q4 Offering:</strong> {item.q4_productOrService || "—"}</div>
                             <div><strong className="text-neutral-900 font-medium">Q5 Salary:</strong> {item.q5_salaryStructure || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q6 Time Mgmt:</strong> {item.q6_timeManagement || "—"}</div>
+                            <div><strong className="text-neutral-900 font-medium">Expected Outcome:</strong> {item.expectedOutcome || "—"}</div>
+                            <div><strong className="text-neutral-900 font-medium">Expected Turnover:</strong> {item.expectedTurnover || "—"}</div>
                             <div><strong className="text-neutral-900 font-medium">Q7 Resignations/Yr:</strong> {item.q7_employeeResignationsPerYear || "—"}</div>
                             <div><strong className="text-neutral-900 font-medium">Q10 Projects:</strong> {item.q10_currentProjectDetails || "—"}</div>
                             <div><strong className="text-neutral-900 font-medium">Q11 Onboarded:</strong> {item.q11_projectsOnboarded || "—"}</div>

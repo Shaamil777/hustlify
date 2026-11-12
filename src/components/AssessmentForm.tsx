@@ -32,7 +32,8 @@ const INITIAL_DATA: AssessmentFormData = {
   q3_targetAudience: "",
   q4_productOrService: "",
   q5_salaryStructure: "",
-  q6_timeManagement: "",
+  expectedOutcome: "",
+  expectedTurnover: "",
   q7_employeeResignationsPerYear: "",
   q8_biggestPainPoint: "",
   q9_consultationGoal: "",
@@ -555,16 +556,30 @@ export default function AssessmentForm() {
                   />
                 </div>
 
-                {/* Q6 */}
+                {/* Expected Outcome */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                    6. Time & daily activities management?
+                    6. Expected outcome from consultation?
                   </label>
                   <input
                     type="text"
-                    value={formData.q6_timeManagement}
-                    onChange={(e) => updateField("q6_timeManagement", e.target.value)}
-                    placeholder="e.g. Google Calendar, Slack standups, Asana"
+                    value={formData.expectedOutcome}
+                    onChange={(e) => updateField("expectedOutcome", e.target.value)}
+                    placeholder="e.g. Optimized sales workflow, CRM automation, clear scaling roadmap"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
+                  />
+                </div>
+
+                {/* Expected Turnover */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                    Expected turnover after consultation?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.expectedTurnover}
+                    onChange={(e) => updateField("expectedTurnover", e.target.value)}
+                    placeholder="e.g. 2x revenue growth, $100k/mo, 30% margin increase"
                     className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 split-input rounded-xl"
                   />
                 </div>

@@ -25,7 +25,8 @@ export interface AssessmentFormData {
   q3_targetAudience: string;
   q4_productOrService: 'Product' | 'Service' | 'Both' | '';
   q5_salaryStructure: string;
-  q6_timeManagement: string;
+  expectedOutcome: string;
+  expectedTurnover: string;
   q7_employeeResignationsPerYear: string;
   q8_biggestPainPoint: string; // Voice + Text
   q8_voiceUrl?: string;
