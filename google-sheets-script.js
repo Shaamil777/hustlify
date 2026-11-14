@@ -1,21 +1,24 @@
 /**
  * =========================================================================
- * Hustlify B2B Assessment – Google Sheets Apps Script Webhook
+ * Hustlify Sales School Pvt. Ltd. | Corporate Consultation
+ * Google Sheets Apps Script Webhook (Full 9-Section Corporate Specification)
  * =========================================================================
  * 
- * HOW TO SET THIS UP IN 1 MINUTE:
- * 1. Open your Google Sheet (create a blank one if you haven't).
- * 2. In Google Sheets top menu, click: "Extensions" > "Apps Script".
- * 3. Delete any code in the editor, paste this entire script, and click "Save" (Ctrl + S).
- * 4. Click the blue "Deploy" button (top right) > "New deployment".
- * 5. Click the gear icon next to "Select type" > choose "Web app".
- * 6. Set Description: "Hustlify Form Receiver"
- * 7. Set "Execute as": "Me"
- * 8. Set "Who has access": "Anyone"  <-- IMPORTANT!
- * 9. Click "Deploy", approve Google permissions.
- * 10. Copy the Web App URL (starts with https://script.google.com/macros/s/...)
- * 11. Add it to your project's .env file as:
- *     GOOGLE_SHEET_WEBHOOK_URL="https://script.google.com/macros/s/..."
+ * HOW TO UPDATE IN GOOGLE SHEETS (Takes 1 Minute):
+ * 1. Open your Google Sheet.
+ * 2. In the top menu, click: "Extensions" > "Apps Script".
+ * 3. Delete existing code, paste this entire script, and click "Save" (Ctrl + S).
+ * 4. Click the blue "Deploy" button (top right) > "Manage deployments".
+ * 5. Click the Edit (pencil) icon next to the active deployment.
+ * 6. Under "Version", choose "New version".
+ * 7. Click "Deploy".
+ * 
+ * NOTE ON SHEET HEADERS:
+ * If your current sheet already has previous column headers from earlier versions,
+ * either:
+ * - Create a new blank Tab/Sheet at the bottom, OR
+ * - Delete Row 1 (the header row) so the script automatically populates all 64
+ *   new formatted column headers on the next submission!
  * =========================================================================
  */
 
@@ -27,54 +30,94 @@ function doPost(e) {
     // Setup headers automatically if first row is empty
     if (sheet.getLastRow() === 0) {
       var headers = [
-        "ID",
+        "Submission ID",
         "Submission Date",
+
+        // 1. Company Overview
         "Company Name",
         "Contact Person",
+        "Designation",
+        "Industry / Field",
+        "Business Location",
         "Email",
         "Phone",
         "Website",
-        // Section 1: Business & Operations
-        "Q1. Incentive per sale",
-        "Q2. Current CRM tools",
-        "Q3. Target audience",
-        "Q4. Product or Service",
-        "Q5. Salary structure",
-        "Expected outcome",
-        "Expected turnover after consultation",
-        "Employee resignations/yr",
-        "Q8. Biggest pain point (Text)",
-        "Q8. Biggest pain point (Voice Note)",
-        "Q9. Consultation goal (Text)",
-        "Q9. Consultation goal (Voice Note)",
-        "Q10. Current project details",
-        "Q11. Projects onboarded",
-        "Q12. Total project volume",
-        "Q13. Projects completed",
-        "Q14. Social media links",
-        "Q15. Dashboard reports",
-        // Section 2: Sales & Lead Management
-        "Q16. Lead conversion process",
-        "Q17. Field / Industry",
-        "Q18. Established year",
-        "Q19. Sales team size",
-        "Q20. Sales team experience",
-        "Q21. Lead generation sources",
-        "Q22. Sales & marketing strategy (Text)",
-        "Q22. Sales & marketing strategy (Voice Note)",
-        "Q23. Dedicated sales lead",
-        "Q24. Monthly conversion ratio",
-        "Q25. Expected conversion ratio",
-        "Q26. Sales team challenges",
-        "Q27. Sales training method (Text)",
-        "Q27. Sales training method (Voice Note)",
-        "Q28. Stakeholders involved"
+        "Year Established",
+        "Brief Description of Business",
+
+        // 2. Products & Services
+        "Products/Services Offered",
+        "Offering Type",
+        "Primary Target Customers",
+        "Approximate Price Range",
+        "Competitor Differentiation",
+
+        // 3. Business Objectives
+        "Primary Business Goals",
+        "Areas to Improve",
+
+        // 4. Sales Department
+        "Sales Team Size",
+        "Dedicated Sales Lead",
+        "Sales Team Experience",
+        "Sales Team Management",
+        "Sales Channels Used",
+        "Sales Team Challenges",
+        "Lead Conversion Process",
+
+        // 5. Marketing & Lead Generation
+        "Marketing & Customer Attraction (Text)",
+        "Marketing & Customer Attraction (Voice Note)",
+        "Paid Advertising",
+        "Where Enquiries Come From",
+        "Major Marketing Challenges",
+        "Social Media / Web Links",
+
+        // 6. Sales Performance
+        "Monthly Customers / Sales",
+        "Average Transaction Value",
+        "Achieving Sales Targets",
+        "Difficulties Preventing Performance",
+        "Monthly Conversion Ratio",
+        "Expected Conversion Ratio",
+        "Incentive per Sale",
+        "Salary Structure",
+        "Employee Resignations/Year",
+
+        // 7. Business Operations & Customer Management
+        "Customer Enquiries & Follow-up",
+        "CRM & Info Tools",
+        "Delivery Method",
+        "Customer Support & Complaints",
+        "Dashboard Reports",
+        "Current Project Details",
+        "Projects Onboarded",
+        "Total Project Volume",
+        "Projects Completed",
+
+        // 8. Leadership, Team & Management
+        "Who Manages Sales & Marketing",
+        "Employee Training Method (Text)",
+        "Employee Training Method (Voice Note)",
+        "Employee Performance Evaluation",
+        "Team-Management Challenges",
+
+        // 9. Business Challenges & Consultation Expectations
+        "Three Biggest Problems (Text)",
+        "Three Biggest Problems (Voice Note)",
+        "Department Needing Most Improvement",
+        "Specific Problems to Investigate",
+        "Consultation Goals (Text)",
+        "Consultation Goals (Voice Note)",
+        "Expected Consultation Outcomes",
+        "Expected Turnover After Consultation",
+        "Additional Information / Notes"
       ];
       sheet.appendRow(headers);
       
       // Style headers row
       var headerRange = sheet.getRange(1, 1, 1, headers.length);
-      headerRange.setBackground("#1e293b");
+      headerRange.setBackground("#064e3b"); // Emerald 900
       headerRange.setFontColor("#ffffff");
       headerRange.setFontWeight("bold");
       sheet.setFrozenRows(1);
@@ -89,46 +132,86 @@ function doPost(e) {
     var newRow = [
       data.submissionId || "",
       data.submittedAt || new Date().toLocaleString(),
+
+      // 1. Company Overview
       data.companyName || "",
       data.contactPerson || "",
+      data.designation || "",
+      data.industryField || "",
+      data.businessLocation || "",
       data.email || "",
       data.phone || "",
       data.website || "",
-      // Q1 - Q15
-      data.q1_incentivePerSale || "",
-      data.q2_currentCrmTools || "",
-      data.q3_targetAudience || "",
-      data.q4_productOrService || "",
-      data.q5_salaryStructure || "",
+      data.establishedYear || "",
+      data.businessDescription || "",
+
+      // 2. Products & Services
+      data.productsServicesOffered || "",
+      data.productOrService || "",
+      data.targetAudience || "",
+      data.approximatePriceRange || "",
+      data.competitorDifferentiation || "",
+
+      // 3. Business Objectives
+      data.primaryBusinessGoals || "",
+      data.areasToImprove || "",
+
+      // 4. Sales Department
+      data.salesTeamSize || "",
+      data.dedicatedSalesLead || "",
+      data.salesTeamExperience || "",
+      data.salesTeamManagement || "",
+      data.salesChannels || "",
+      data.salesTeamChallenges || "",
+      data.leadConversionProcess || "",
+
+      // 5. Marketing & Lead Generation
+      data.salesMarketingStrategy || "",
+      q22VoiceFormula,
+      data.paidAdvertising || "",
+      data.leadGenerationSources || "",
+      data.marketingChallenges || "",
+      data.socialLinks || "",
+
+      // 6. Sales Performance
+      data.monthlyCustomerSalesVolume || "",
+      data.averageTransactionValue || "",
+      data.achievingSalesTargets || "",
+      data.salesPerformanceDifficulties || "",
+      data.monthlyConversionRatio || "",
+      data.expectedConversionRatio || "",
+      data.incentivePerSale || "",
+      data.salaryStructure || "",
+      data.employeeResignationsPerYear || "",
+
+      // 7. Business Operations & Customer Management
+      data.customerEnquiriesFollowup || "",
+      data.currentCrmTools || "",
+      data.deliveryMethod || "",
+      data.customerSupportHandling || "",
+      data.dashboardReports || "",
+      data.currentProjectDetails || "",
+      data.projectsOnboarded || "",
+      data.totalProjectVolume || "",
+      data.projectsCompleted || "",
+
+      // 8. Leadership, Team & Management
+      data.stakeholdersInvolved || "",
+      data.salesTrainingMethod || "",
+      q27VoiceFormula,
+      data.employeePerformanceEvaluation || "",
+      data.teamManagementChallenges || "",
+
+      // 9. Business Challenges & Consultation Expectations
+      data.biggestPainPoint || "",
+      q8VoiceFormula,
+      data.departmentNeedingImprovement || "",
+      data.specificProblemsToInvestigate || "",
+      data.consultationGoal || "",
+      q9VoiceFormula,
       data.expectedOutcome || "",
       data.expectedTurnover || "",
-      data.q7_employeeResignationsPerYear || "",
-      data.q8_biggestPainPoint || "",
-      q8VoiceFormula,
-      data.q9_consultationGoal || "",
-      q9VoiceFormula,
-      data.q10_currentProjectDetails || "",
-      data.q11_projectsOnboarded || "",
-      data.q12_totalProjectVolume || "",
-      data.q13_projectsCompleted || "",
-      data.q14_socialLinks || "",
-      data.q15_dashboardReports || "",
-      // Q16 - Q28
-      data.q16_leadConversionProcess || "",
-      data.q17_industryField || "",
-      data.q18_establishedYear || "",
-      data.q19_salesTeamSize || "",
-      data.q20_salesTeamExperience || "",
-      data.q21_leadGenerationSources || "",
-      data.q22_salesMarketingStrategy || "",
-      q22VoiceFormula,
-      data.q23_dedicatedSalesLead || "",
-      data.q24_monthlyConversionRatio || "",
-      data.q25_expectedConversionRatio || "",
-      data.q26_salesTeamChallenges || "",
-      data.q27_salesTrainingMethod || "",
-      q27VoiceFormula,
-      data.q28_stakeholdersInvolved || ""
+      data.additionalNotes || ""
     ];
 
     sheet.appendRow(newRow);
@@ -143,4 +226,3 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
-

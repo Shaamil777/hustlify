@@ -3,15 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
-  Lock, 
-  Search, 
   Download, 
-  ExternalLink, 
   Play, 
   Pause, 
   ChevronDown, 
   ChevronUp, 
-  Mic, 
   LogOut, 
   ArrowLeft
 } from "lucide-react";
@@ -78,14 +74,15 @@ export default function AdminPage() {
     if (submissions.length === 0) return;
 
     const headers = [
-      "ID", "Date", "Company", "Contact", "Email", "Phone", "Website",
-      "Q1 Incentive", "Q2 CRM", "Q3 Audience", "Q4 Offering", "Q5 Salary", "Expected Outcome", "Expected Turnover",
-      "Q7 Resignations/Yr", "Q8 Pain Point", "Q8 Voice URL", "Q9 Goal", "Q9 Voice URL",
-      "Q10 Projects", "Q11 Onboarded", "Q12 Volume", "Q13 Completed", "Q14 Social Links",
-      "Q15 Dashboards", "Q16 Conversion Process", "Q17 Industry", "Q18 Established",
-      "Q19 Sales Team Size", "Q20 Experience", "Q21 Lead Gen", "Q22 Sales Strategy",
-      "Q22 Voice URL", "Q23 Sales Lead", "Q24 Monthly Conv %", "Q25 Expected Conv %",
-      "Q26 Challenges", "Q27 Training Method", "Q27 Voice URL", "Q28 Stakeholders"
+      "ID", "Date", "Company", "Contact Person", "Designation", "Industry", "Location", "Email", "Phone", "Website", "Year Established", "Description",
+      "Products/Services", "Offering Type", "Target Customers", "Price Range", "Differentiation",
+      "Primary Goals", "Areas to Improve",
+      "Sales Team Size", "Dedicated Lead", "Team Experience", "Team Management", "Sales Channels", "Sales Challenges", "Conversion Process",
+      "Marketing Strategy (Text)", "Marketing Voice URL", "Paid Advertising", "Enquiry Sources", "Marketing Challenges", "Social Links",
+      "Monthly Customers/Sales", "Avg Transaction Value", "Achieving Targets", "Sales Difficulties", "Monthly Conv %", "Expected Conv %", "Incentive per Sale", "Salary Structure", "Resignations/Yr",
+      "Enquiries & Followup", "CRM Tools", "Delivery Method", "Customer Support", "Dashboard Reports", "Project Details", "Onboarded", "Total Volume", "Completed",
+      "Who Manages Sales/Mktg", "Training Method (Text)", "Training Voice URL", "Performance Evaluation", "Team Challenges",
+      "Three Biggest Problems (Text)", "Problems Voice URL", "Department to Improve", "Problems to Investigate", "Consultation Goal (Text)", "Goal Voice URL", "Expected Outcome", "Expected Turnover", "Additional Notes"
     ];
 
     const rows = submissions.map((s) => [
@@ -93,48 +90,80 @@ export default function AdminPage() {
       new Date(s.submittedAt).toLocaleDateString(),
       `"${(s.companyName || "").replace(/"/g, '""')}"`,
       `"${(s.contactPerson || "").replace(/"/g, '""')}"`,
+      `"${(s.designation || "").replace(/"/g, '""')}"`,
+      `"${(s.q17_industryField || "").replace(/"/g, '""')}"`,
+      `"${(s.businessLocation || "").replace(/"/g, '""')}"`,
       s.email,
       s.phone,
       s.website || "",
-      `"${(s.q1_incentivePerSale || "").replace(/"/g, '""')}"`,
-      `"${(s.q2_currentCrmTools || "").replace(/"/g, '""')}"`,
+      s.q18_establishedYear || "",
+      `"${(s.businessDescription || "").replace(/"/g, '""')}"`,
+
+      `"${(s.productsServicesOffered || "").replace(/"/g, '""')}"`,
+      s.q4_productOrService || "",
       `"${(s.q3_targetAudience || "").replace(/"/g, '""')}"`,
-      s.q4_productOrService,
-      `"${(s.q5_salaryStructure || "").replace(/"/g, '""')}"`,
-      `"${(s.expectedOutcome || "").replace(/"/g, '""')}"`,
-      `"${(s.expectedTurnover || "").replace(/"/g, '""')}"`,
-      s.q7_employeeResignationsPerYear,
-      `"${(s.q8_biggestPainPoint || "").replace(/"/g, '""')}"`,
-      s.q8_voiceUrl || "",
-      `"${(s.q9_consultationGoal || "").replace(/"/g, '""')}"`,
-      s.q9_voiceUrl || "",
-      `"${(s.q10_currentProjectDetails || "").replace(/"/g, '""')}"`,
-      s.q11_projectsOnboarded,
-      s.q12_totalProjectVolume,
-      s.q13_projectsCompleted,
-      `"${(s.q14_socialLinks || []).map((l) => `${l.platform}: ${l.url}`).join(" | ")}"`,
-      s.q15_dashboardReports,
-      `"${(s.q16_leadConversionProcess || "").replace(/"/g, '""')}"`,
-      `"${(s.q17_industryField || "").replace(/"/g, '""')}"`,
-      s.q18_establishedYear,
-      s.q19_salesTeamSize,
+      `"${(s.approximatePriceRange || "").replace(/"/g, '""')}"`,
+      `"${(s.competitorDifferentiation || "").replace(/"/g, '""')}"`,
+
+      `"${(s.primaryBusinessGoals || "").replace(/"/g, '""')}"`,
+      `"${(s.areasToImprove || "").replace(/"/g, '""')}"`,
+
+      `"${(s.q19_salesTeamSize || "").replace(/"/g, '""')}"`,
+      s.q23_dedicatedSalesLead || "",
       `"${(s.q20_salesTeamExperience || "").replace(/"/g, '""')}"`,
-      `"${(s.q21_leadGenerationSources || "").replace(/"/g, '""')}"`,
+      `"${(s.salesTeamManagement || "").replace(/"/g, '""')}"`,
+      `"${(s.salesChannels || "").replace(/"/g, '""')}"`,
+      `"${(s.q26_salesTeamChallenges || "").replace(/"/g, '""')}"`,
+      `"${(s.q16_leadConversionProcess || "").replace(/"/g, '""')}"`,
+
       `"${(s.q22_salesMarketingStrategy || "").replace(/"/g, '""')}"`,
       s.q22_voiceUrl || "",
-      s.q23_dedicatedSalesLead,
-      s.q24_monthlyConversionRatio,
-      s.q25_expectedConversionRatio,
-      `"${(s.q26_salesTeamChallenges || "").replace(/"/g, '""')}"`,
+      `"${(s.paidAdvertising || "").replace(/"/g, '""')}"`,
+      `"${(s.q21_leadGenerationSources || "").replace(/"/g, '""')}"`,
+      `"${(s.marketingChallenges || "").replace(/"/g, '""')}"`,
+      `"${(s.q14_socialLinks || []).map((l) => `${l.platform}: ${l.url}`).join(" | ")}"`,
+
+      `"${(s.monthlyCustomerSalesVolume || "").replace(/"/g, '""')}"`,
+      `"${(s.averageTransactionValue || "").replace(/"/g, '""')}"`,
+      s.achievingSalesTargets || "",
+      `"${(s.salesPerformanceDifficulties || "").replace(/"/g, '""')}"`,
+      s.q24_monthlyConversionRatio || "",
+      s.q25_expectedConversionRatio || "",
+      `"${(s.q1_incentivePerSale || "").replace(/"/g, '""')}"`,
+      `"${(s.q5_salaryStructure || "").replace(/"/g, '""')}"`,
+      s.q7_employeeResignationsPerYear || "",
+
+      `"${(s.customerEnquiriesFollowup || "").replace(/"/g, '""')}"`,
+      `"${(s.q2_currentCrmTools || "").replace(/"/g, '""')}"`,
+      `"${(s.deliveryMethod || "").replace(/"/g, '""')}"`,
+      `"${(s.customerSupportHandling || "").replace(/"/g, '""')}"`,
+      s.q15_dashboardReports || "",
+      `"${(s.q10_currentProjectDetails || "").replace(/"/g, '""')}"`,
+      s.q11_projectsOnboarded || "",
+      s.q12_totalProjectVolume || "",
+      s.q13_projectsCompleted || "",
+
+      `"${(s.q28_stakeholdersInvolved || "").replace(/"/g, '""')}"`,
       `"${(s.q27_salesTrainingMethod || "").replace(/"/g, '""')}"`,
       s.q27_voiceUrl || "",
-      `"${(s.q28_stakeholdersInvolved || "").replace(/"/g, '""')}"`,
+      `"${(s.employeePerformanceEvaluation || "").replace(/"/g, '""')}"`,
+      `"${(s.teamManagementChallenges || "").replace(/"/g, '""')}"`,
+
+      `"${(s.q8_biggestPainPoint || "").replace(/"/g, '""')}"`,
+      s.q8_voiceUrl || "",
+      `"${(s.departmentNeedingImprovement || "").replace(/"/g, '""')}"`,
+      `"${(s.specificProblemsToInvestigate || "").replace(/"/g, '""')}"`,
+      `"${(s.q9_consultationGoal || "").replace(/"/g, '""')}"`,
+      s.q9_voiceUrl || "",
+      `"${(s.expectedOutcome || "").replace(/"/g, '""')}"`,
+      `"${(s.expectedTurnover || "").replace(/"/g, '""')}"`,
+      `"${(s.additionalNotes || "").replace(/"/g, '""')}"`,
     ]);
 
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", `hustlify_assessments_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `hustlify_consultation_assessments_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -156,13 +185,13 @@ export default function AdminPage() {
 
       {/* Admin Nav */}
       <header className="border-b border-neutral-200 bg-white sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 h-12 flex items-center justify-between text-xs">
+        <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <Link href="/" className="text-neutral-500 hover:text-neutral-900 flex items-center gap-1">
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Form
             </Link>
             <span className="text-neutral-300">/</span>
-            <span className="font-semibold text-neutral-900">Admin</span>
+            <span className="font-semibold text-neutral-900">Corporate Assessment Admin</span>
           </div>
 
           {isAuthenticated && (
@@ -172,7 +201,7 @@ export default function AdminPage() {
                 onClick={exportCSV}
                 className="text-neutral-600 hover:text-neutral-900 flex items-center gap-1 font-medium cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5" /> Export CSV
+                <Download className="w-3.5 h-3.5" /> Export All to CSV
               </button>
               <button
                 type="button"
@@ -187,7 +216,7 @@ export default function AdminPage() {
       </header>
 
       {/* Main Container */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         {!isAuthenticated ? (
           <div className="max-w-xs mx-auto my-16 bg-white border border-neutral-200 rounded-lg p-6 shadow-sm text-center">
             <h1 className="text-sm font-semibold text-neutral-900 mb-1">Admin Access</h1>
@@ -221,8 +250,8 @@ export default function AdminPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
-                className="px-2.5 py-1.5 text-xs text-neutral-900 minimal-input rounded w-48"
+                placeholder="Search company, contact, id..."
+                className="px-2.5 py-1.5 text-xs text-neutral-900 minimal-input rounded w-56"
               />
             </div>
 
@@ -242,8 +271,8 @@ export default function AdminPage() {
                       >
                         <div>
                           <span className="font-semibold text-neutral-900">{item.companyName || "Unnamed"}</span>
-                          <span className="text-neutral-400 font-normal ml-2">({item.contactPerson})</span>
-                          <div className="text-[11px] text-neutral-400 mt-0.5">{item.email} • {item.phone}</div>
+                          <span className="text-neutral-400 font-normal ml-2">({item.contactPerson} - {item.designation || "N/A"})</span>
+                          <div className="text-[11px] text-neutral-400 mt-0.5">{item.email} • {item.phone} • {item.businessLocation || "N/A"}</div>
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -256,12 +285,12 @@ export default function AdminPage() {
                         <div className="p-4 border-t border-neutral-100 bg-neutral-50/50 space-y-4 text-xs">
                           {/* Audio playback buttons */}
                           <div className="space-y-2">
-                            <div className="font-medium text-neutral-700">Voice Notes</div>
+                            <div className="font-medium text-neutral-700">Strategic Voice Notes</div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {/* Q8 */}
                               <div className="p-2.5 bg-white border border-neutral-200 rounded space-y-1">
-                                <div className="font-medium text-neutral-800">Q.8 Pain point</div>
-                                <div className="text-[11px] text-neutral-500 italic">{item.q8_biggestPainPoint || "No text"}</div>
+                                <div className="font-medium text-neutral-800">Q8. Three Biggest Problems</div>
+                                <div className="text-[11px] text-neutral-500 italic">{item.q8_biggestPainPoint || "No text provided"}</div>
                                 {item.q8_voiceUrl && (
                                   <button
                                     type="button"
@@ -276,8 +305,8 @@ export default function AdminPage() {
 
                               {/* Q9 */}
                               <div className="p-2.5 bg-white border border-neutral-200 rounded space-y-1">
-                                <div className="font-medium text-neutral-800">Q.9 Consultation Goal</div>
-                                <div className="text-[11px] text-neutral-500 italic">{item.q9_consultationGoal || "No text"}</div>
+                                <div className="font-medium text-neutral-800">Q9. Consultation Goals & Outcomes</div>
+                                <div className="text-[11px] text-neutral-500 italic">{item.q9_consultationGoal || "No text provided"}</div>
                                 {item.q9_voiceUrl && (
                                   <button
                                     type="button"
@@ -292,8 +321,8 @@ export default function AdminPage() {
 
                               {/* Q22 */}
                               <div className="p-2.5 bg-white border border-neutral-200 rounded space-y-1">
-                                <div className="font-medium text-neutral-800">Q.22 Sales Strategy</div>
-                                <div className="text-[11px] text-neutral-500 italic">{item.q22_salesMarketingStrategy || "No text"}</div>
+                                <div className="font-medium text-neutral-800">Q22. Customer Attraction & Marketing</div>
+                                <div className="text-[11px] text-neutral-500 italic">{item.q22_salesMarketingStrategy || "No text provided"}</div>
                                 {item.q22_voiceUrl && (
                                   <button
                                     type="button"
@@ -308,8 +337,8 @@ export default function AdminPage() {
 
                               {/* Q27 */}
                               <div className="p-2.5 bg-white border border-neutral-200 rounded space-y-1">
-                                <div className="font-medium text-neutral-800">Q.27 Sales Training Method</div>
-                                <div className="text-[11px] text-neutral-500 italic">{item.q27_salesTrainingMethod || "No text"}</div>
+                                <div className="font-medium text-neutral-800">Q27. Regular Employee Training</div>
+                                <div className="text-[11px] text-neutral-500 italic">{item.q27_salesTrainingMethod || "No text provided"}</div>
                                 {item.q27_voiceUrl && (
                                   <button
                                     type="button"
@@ -324,32 +353,40 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          {/* Full Q & A */}
-                          <div className="space-y-1.5 text-neutral-600 pt-2 border-t border-neutral-200">
-                            <div><strong className="text-neutral-900 font-medium">Q1 Incentive:</strong> {item.q1_incentivePerSale || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q2 CRM:</strong> {item.q2_currentCrmTools || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q3 Target Audience:</strong> {item.q3_targetAudience || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q4 Offering:</strong> {item.q4_productOrService || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q5 Salary:</strong> {item.q5_salaryStructure || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Expected Outcome:</strong> {item.expectedOutcome || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Expected Turnover:</strong> {item.expectedTurnover || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q7 Resignations/Yr:</strong> {item.q7_employeeResignationsPerYear || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q10 Projects:</strong> {item.q10_currentProjectDetails || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q11 Onboarded:</strong> {item.q11_projectsOnboarded || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q12 Volume:</strong> {item.q12_totalProjectVolume || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q13 Completed:</strong> {item.q13_projectsCompleted || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q15 Dashboards:</strong> {item.q15_dashboardReports || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q16 Lead Conversion:</strong> {item.q16_leadConversionProcess || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q17 Industry:</strong> {item.q17_industryField || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q18 Established:</strong> {item.q18_establishedYear || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q19 Team Size:</strong> {item.q19_salesTeamSize || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q20 Experience:</strong> {item.q20_salesTeamExperience || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q21 Lead Gen:</strong> {item.q21_leadGenerationSources || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q23 Sales Lead:</strong> {item.q23_dedicatedSalesLead || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q24 Monthly Conv %:</strong> {item.q24_monthlyConversionRatio || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q25 Expected Conv %:</strong> {item.q25_expectedConversionRatio || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q26 Challenges:</strong> {item.q26_salesTeamChallenges || "—"}</div>
-                            <div><strong className="text-neutral-900 font-medium">Q28 Stakeholders:</strong> {item.q28_stakeholdersInvolved || "—"}</div>
+                          {/* Full Q & A breakdown */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-neutral-200 text-neutral-600">
+                            <div className="space-y-1.5">
+                              <div><strong className="text-neutral-900 font-medium">Company Overview:</strong> {item.businessDescription || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Products/Services Offered:</strong> {item.productsServicesOffered || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Offering Type:</strong> {item.q4_productOrService || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Target Customers:</strong> {item.q3_targetAudience || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Price Range:</strong> {item.approximatePriceRange || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Differentiation:</strong> {item.competitorDifferentiation || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Primary Goals:</strong> {item.primaryBusinessGoals || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Areas to Improve:</strong> {item.areasToImprove || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Sales Team Size:</strong> {item.q19_salesTeamSize || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Dedicated Lead:</strong> {item.q23_dedicatedSalesLead || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Sales Channels:</strong> {item.salesChannels || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Sales Challenges:</strong> {item.q26_salesTeamChallenges || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Paid Advertising:</strong> {item.paidAdvertising || "—"}</div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <div><strong className="text-neutral-900 font-medium">Lead Gen Sources:</strong> {item.q21_leadGenerationSources || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Marketing Challenges:</strong> {item.marketingChallenges || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Monthly Customers/Sales:</strong> {item.monthlyCustomerSalesVolume || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Avg Transaction Value:</strong> {item.averageTransactionValue || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Achieving Targets:</strong> {item.achievingSalesTargets || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Sales Difficulties:</strong> {item.salesPerformanceDifficulties || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">CRM Tools:</strong> {item.q2_currentCrmTools || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Delivery Method:</strong> {item.deliveryMethod || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Customer Support:</strong> {item.customerSupportHandling || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Expected Outcome:</strong> {item.expectedOutcome || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Expected Turnover:</strong> {item.expectedTurnover || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Dept Needing Improvement:</strong> {item.departmentNeedingImprovement || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Specific Problems:</strong> {item.specificProblemsToInvestigate || "—"}</div>
+                              <div><strong className="text-neutral-900 font-medium">Additional Notes:</strong> {item.additionalNotes || "—"}</div>
+                            </div>
                           </div>
                         </div>
                       )}

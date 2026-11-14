@@ -43,50 +43,88 @@ export async function POST(request: NextRequest) {
         const googleSheetPayload = {
           submissionId,
           submittedAt: new Date().toLocaleString(),
-          companyName: body.companyName,
-          contactPerson: body.contactPerson,
-          email: body.email,
-          phone: body.phone,
-          website: body.website || "",
 
-          // Business & Operations (Q1 - Q15)
-          q1_incentivePerSale: body.q1_incentivePerSale,
-          q2_currentCrmTools: body.q2_currentCrmTools,
-          q3_targetAudience: body.q3_targetAudience,
-          q4_productOrService: body.q4_productOrService,
-          q5_salaryStructure: body.q5_salaryStructure,
-          expectedOutcome: body.expectedOutcome,
-          expectedTurnover: body.expectedTurnover,
-          q7_employeeResignationsPerYear: body.q7_employeeResignationsPerYear,
-          q8_biggestPainPoint: body.q8_biggestPainPoint,
-          q8_voiceUrl: body.q8_voiceUrl || "",
-          q9_consultationGoal: body.q9_consultationGoal,
-          q9_voiceUrl: body.q9_voiceUrl || "",
-          q10_currentProjectDetails: body.q10_currentProjectDetails,
-          q11_projectsOnboarded: body.q11_projectsOnboarded,
-          q12_totalProjectVolume: body.q12_totalProjectVolume,
-          q13_projectsCompleted: body.q13_projectsCompleted,
-          q14_socialLinks: (body.q14_socialLinks || [])
+          // Section 1: Company Overview
+          companyName: body.companyName || "",
+          contactPerson: body.contactPerson || "",
+          designation: body.designation || "",
+          industryField: body.q17_industryField || "",
+          businessLocation: body.businessLocation || "",
+          email: body.email || "",
+          phone: body.phone || "",
+          website: body.website || "",
+          establishedYear: body.q18_establishedYear || "",
+          businessDescription: body.businessDescription || "",
+
+          // Section 2: Products & Services
+          productsServicesOffered: body.productsServicesOffered || "",
+          productOrService: body.q4_productOrService || "",
+          targetAudience: body.q3_targetAudience || "",
+          approximatePriceRange: body.approximatePriceRange || "",
+          competitorDifferentiation: body.competitorDifferentiation || "",
+
+          // Section 3: Business Objectives
+          primaryBusinessGoals: body.primaryBusinessGoals || "",
+          areasToImprove: body.areasToImprove || "",
+
+          // Section 4: Sales Department
+          salesTeamSize: body.q19_salesTeamSize || "",
+          dedicatedSalesLead: body.q23_dedicatedSalesLead || "",
+          salesTeamExperience: body.q20_salesTeamExperience || "",
+          salesTeamManagement: body.salesTeamManagement || "",
+          salesChannels: body.salesChannels || "",
+          salesTeamChallenges: body.q26_salesTeamChallenges || "",
+          leadConversionProcess: body.q16_leadConversionProcess || "",
+
+          // Section 5: Marketing & Lead Generation
+          salesMarketingStrategy: body.q22_salesMarketingStrategy || "",
+          q22_voiceUrl: body.q22_voiceUrl || "",
+          paidAdvertising: body.paidAdvertising || "",
+          leadGenerationSources: body.q21_leadGenerationSources || "",
+          marketingChallenges: body.marketingChallenges || "",
+          socialLinks: (body.q14_socialLinks || [])
             .map((s) => `${s.platform}: ${s.url}`)
             .join(" | "),
-          q15_dashboardReports: body.q15_dashboardReports,
 
-          // Sales & Lead Management (Q16 - Q28)
-          q16_leadConversionProcess: body.q16_leadConversionProcess,
-          q17_industryField: body.q17_industryField,
-          q18_establishedYear: body.q18_establishedYear,
-          q19_salesTeamSize: body.q19_salesTeamSize,
-          q20_salesTeamExperience: body.q20_salesTeamExperience,
-          q21_leadGenerationSources: body.q21_leadGenerationSources,
-          q22_salesMarketingStrategy: body.q22_salesMarketingStrategy,
-          q22_voiceUrl: body.q22_voiceUrl || "",
-          q23_dedicatedSalesLead: body.q23_dedicatedSalesLead,
-          q24_monthlyConversionRatio: body.q24_monthlyConversionRatio,
-          q25_expectedConversionRatio: body.q25_expectedConversionRatio,
-          q26_salesTeamChallenges: body.q26_salesTeamChallenges,
-          q27_salesTrainingMethod: body.q27_salesTrainingMethod,
+          // Section 6: Sales Performance
+          monthlyCustomerSalesVolume: body.monthlyCustomerSalesVolume || "",
+          averageTransactionValue: body.averageTransactionValue || "",
+          achievingSalesTargets: body.achievingSalesTargets || "",
+          salesPerformanceDifficulties: body.salesPerformanceDifficulties || "",
+          monthlyConversionRatio: body.q24_monthlyConversionRatio || "",
+          expectedConversionRatio: body.q25_expectedConversionRatio || "",
+          incentivePerSale: body.q1_incentivePerSale || "",
+          salaryStructure: body.q5_salaryStructure || "",
+          employeeResignationsPerYear: body.q7_employeeResignationsPerYear || "",
+
+          // Section 7: Business Operations & Customer Management
+          customerEnquiriesFollowup: body.customerEnquiriesFollowup || "",
+          currentCrmTools: body.q2_currentCrmTools || "",
+          deliveryMethod: body.deliveryMethod || "",
+          customerSupportHandling: body.customerSupportHandling || "",
+          dashboardReports: body.q15_dashboardReports || "",
+          currentProjectDetails: body.q10_currentProjectDetails || "",
+          projectsOnboarded: body.q11_projectsOnboarded || "",
+          totalProjectVolume: body.q12_totalProjectVolume || "",
+          projectsCompleted: body.q13_projectsCompleted || "",
+
+          // Section 8: Leadership, Team & Management
+          stakeholdersInvolved: body.q28_stakeholdersInvolved || "",
+          salesTrainingMethod: body.q27_salesTrainingMethod || "",
           q27_voiceUrl: body.q27_voiceUrl || "",
-          q28_stakeholdersInvolved: body.q28_stakeholdersInvolved,
+          employeePerformanceEvaluation: body.employeePerformanceEvaluation || "",
+          teamManagementChallenges: body.teamManagementChallenges || "",
+
+          // Section 9: Business Challenges & Consultation Expectations
+          biggestPainPoint: body.q8_biggestPainPoint || "",
+          q8_voiceUrl: body.q8_voiceUrl || "",
+          departmentNeedingImprovement: body.departmentNeedingImprovement || "",
+          specificProblemsToInvestigate: body.specificProblemsToInvestigate || "",
+          consultationGoal: body.q9_consultationGoal || "",
+          q9_voiceUrl: body.q9_voiceUrl || "",
+          expectedOutcome: body.expectedOutcome || "",
+          expectedTurnover: body.expectedTurnover || "",
+          additionalNotes: body.additionalNotes || "",
         };
 
         await fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
@@ -105,19 +143,21 @@ export async function POST(request: NextRequest) {
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
-        const telegramText = `🔔 *New Hustlify Assessment Received!*
+        const telegramText = `🔔 *New Hustlify Corporate Consultation Form Received!*
         
 🏢 *Company:* ${body.companyName}
-👤 *Contact:* ${body.contactPerson}
+👤 *Contact:* ${body.contactPerson} (${body.designation})
 📧 *Email:* ${body.email}
 📱 *Phone:* ${body.phone}
+📍 *Location:* ${body.businessLocation || "N/A"}
 🌐 *Website:* ${body.website || "N/A"}
+📊 *Turnover Expectation:* ${body.expectedTurnover || "N/A"}
 
 🎯 *Key Voice Notes:*
-• *Q8 Pain Point:* ${body.q8_voiceUrl ? `[▶️ Play Voice Note](${body.q8_voiceUrl})` : body.q8_biggestPainPoint || "None"}
-• *Q9 Consultation Goal:* ${body.q9_voiceUrl ? `[▶️ Play Voice Note](${body.q9_voiceUrl})` : body.q9_consultationGoal || "None"}
-• *Q22 Sales Strategy:* ${body.q22_voiceUrl ? `[▶️ Play Voice Note](${body.q22_voiceUrl})` : body.q22_salesMarketingStrategy || "None"}
-• *Q27 Sales Training:* ${body.q27_voiceUrl ? `[▶️ Play Voice Note](${body.q27_voiceUrl})` : body.q27_salesTrainingMethod || "None"}
+• *3 Biggest Problems (Q8):* ${body.q8_voiceUrl ? `[▶️ Play Voice Note](${body.q8_voiceUrl})` : body.q8_biggestPainPoint || "None"}
+• *Consultation Goal (Q9):* ${body.q9_voiceUrl ? `[▶️ Play Voice Note](${body.q9_voiceUrl})` : body.q9_consultationGoal || "None"}
+• *Marketing Strategy (Q22):* ${body.q22_voiceUrl ? `[▶️ Play Voice Note](${body.q22_voiceUrl})` : body.q22_salesMarketingStrategy || "None"}
+• *Employee Training (Q27):* ${body.q27_voiceUrl ? `[▶️ Play Voice Note](${body.q27_voiceUrl})` : body.q27_salesTrainingMethod || "None"}
 
 📋 *ID:* \`${submissionId}\`
 🕒 *Time:* ${new Date().toLocaleString()}`;
